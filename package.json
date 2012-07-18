@@ -1,8 +1,21 @@
 {
-  "name": "Bronson",
+  "name": "bronson",
   "version": "0.1.0",
   "dependencies": {
     "coffee-script": "*",
     "socket.io": "0.9.2"
-  }
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "author": "Alex David",
+  "description": "Bronson is a real time browser messaging framework with serverside integration.",
+  "homepage": "https://github.com/Originate-Inc/bronson",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Originate-Inc/bronson.git"
+  },
+  "main": "bronson.js"
 }

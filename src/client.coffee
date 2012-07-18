@@ -20,7 +20,7 @@ class exports.Client
     @room = Room.get(data.roomId)
     @room.addClient(@)
     #@room.broadcast('join', data)
-    @controller = new HTTPController(data.host)
+    @controller = new HTTPController()
 
 
   sendData: (obj) =>

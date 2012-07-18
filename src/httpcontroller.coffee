@@ -1,11 +1,12 @@
 
 http = require('http')
 
+exports.HTTPHost = ""
 
 class exports.HTTPController
 
-  constructor: (host) ->
-    hostarr = host.split(":")
+  constructor: () ->
+    hostarr = exports.HTTPHost.split(":")
     @hostname = hostarr[0]
     @port = hostarr[1]
 
