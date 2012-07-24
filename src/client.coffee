@@ -10,6 +10,12 @@ class exports.Client
 
 
   # Allows a client to broadcast a message to all other clients in the room.
+  # obj.broadcast contains what gets broadcasted to everyone else in the room after the optional backend request returns.
+  # obj.backendRequest: Object that describes the request to be sent to the backend.
+  #     .data: payload to be sent to backend
+  #     .path: URL path to backend API
+  #     .method: 'POST', 'GET', or 'DELETE'
+  #     .headers: object containing key-values for the HTTP header of the backend request.
   broadcast: (obj) =>
     return @error("Not in room") unless @room?
     return @error("Missing data") unless obj?
@@ -17,9 +23,8 @@ class exports.Client
     responseObject = {}
     eventString = if obj.event? then obj.event else "update"
 
-    if obj.broadcast?
-      # Send anything in broadcast to all clients
-      responseObject.broadcast = obj.broadcast
+    # Send anything in broadcast to all clients
+    responseObject.broadcast = obj.broadcast if obj.broadcast?
 
     if obj.backendRequest?
       return @error "No backend server specified" unless @httpController?
@@ -56,7 +61,7 @@ class exports.Client
 
   # Called when a client requests to join the given room.
   joinRoom: (data) =>
-    return unless data? and data.userId? and data.roomId? and data.host?
+    return unless data? and data.userId? and data.roomId?
 
     @room?.removeClient(@)
     @userId = data.userId
