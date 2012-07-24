@@ -1,29 +1,16 @@
-
 Room = require('./room').Room
-HTTPController  = require('./httpcontroller').HTTPController
 
 class exports.Client
-  # Client.list
-  # array of all connected clients
 
-  constructor: (@socket) ->
-    @socket.on('join', @joinRoom)
-    @socket.on('send', @sendData)
-    @socket.on('disconnect', @disconnect)
-
-
-  joinRoom: (data) =>
-    return unless data? and data.userId? and data.roomId? and data.host?
-
-    @room?.removeClient(@)
-    @userId = data.userId
-    @room = Room.get(data.roomId)
-    @room.addClient(@)
-    #@room.broadcast('join', data)
-    @controller = new HTTPController()
+  constructor: (@socket, @httpController) ->
+    @socket.on 'join', @joinRoom
+    @socket.on 'send', @broadcast
+    @socket.on 'disconnect', @disconnect
+    @socket.on 'ping', @ping
 
 
-  sendData: (obj) =>
+  # Allows a client to broadcast a message to all other clients in the room.
+  broadcast: (obj) =>
     return @error("Not in room") unless @room?
     return @error("Missing data") unless obj?
 
@@ -35,8 +22,10 @@ class exports.Client
       responseObject.broadcast = obj.broadcast
 
     if obj.backendRequest?
+      return @error "No backend server specified" unless @httpController?
+
       # Send data to http server, relay response to clients
-      @controller.request(
+      @httpController.request(
         data: obj.backendRequest.data
         path: obj.backendRequest.path
         method: obj.backendRequest.method
@@ -49,15 +38,33 @@ class exports.Client
     else
       @room.broadcast(eventString, responseObject )
 
+
+  # Called when the client disconnect.
   disconnect: =>
     @room?.removeClient(@)
 
 
-  # emits message to this client
+  # Sends the given message to this client.
   emit: (message, data) ->
     @socket.emit(message,data)
 
 
-
+  # Sends the given error message to the client.
   error: (errorMessage) ->
     @socket.emit 'error', errorMessage
+
+
+  # Called when a client requests to join the given room.
+  joinRoom: (data) =>
+    return unless data? and data.userId? and data.roomId? and data.host?
+
+    @room?.removeClient(@)
+    @userId = data.userId
+    @room = Room.get(data.roomId)
+    @room.addClient(@)
+
+
+  # For diagnosing connection issues.
+  ping: =>
+    @emit 'pong'
+

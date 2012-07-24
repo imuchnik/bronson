@@ -8,11 +8,9 @@
 
   exports.HTTPController = (function() {
 
-    function HTTPController() {
-      var hostarr;
-      hostarr = exports.HTTPHost.split(":");
-      this.hostname = hostarr[0];
-      this.port = hostarr[1];
+    function HTTPController(hostname, port) {
+      this.hostname = hostname;
+      this.port = port;
     }
 
     HTTPController.prototype.request = function(obj) {

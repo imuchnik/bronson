@@ -1,15 +1,10 @@
-
 http = require('http')
 
 exports.HTTPHost = ""
 
 class exports.HTTPController
 
-  constructor: () ->
-    hostarr = exports.HTTPHost.split(":")
-    @hostname = hostarr[0]
-    @port = hostarr[1]
-
+  constructor: (@hostname, @port) ->
 
   request: (obj) ->
     obj.data ?= {}
