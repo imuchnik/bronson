@@ -9,15 +9,17 @@
   Room = require('./room').Room;
 
   exports.setHost = function(host) {
-    return require('./httpcontroller').HTTPHost = host;
+    require('./httpcontroller').HTTPHost = host;
+    return exports;
   };
 
   exports.listen = function(port) {
     var io;
     io = exports.io.listen(port);
-    return io.sockets.on('connection', function(socket) {
+    io.sockets.on('connection', function(socket) {
       return new Client(socket);
     });
+    return exports;
   };
 
 }).call(this);

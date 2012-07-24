@@ -4,7 +4,9 @@ Room = require('./room').Room
 
 exports.setHost = (host) ->
   require('./httpcontroller').HTTPHost = host
+  exports
 
 exports.listen = (port) ->
   io = exports.io.listen port
   io.sockets.on('connection', (socket) -> new Client(socket) )
+  exports
