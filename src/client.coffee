@@ -71,5 +71,6 @@ class exports.Client
 
   # For diagnosing connection issues.
   ping: =>
+    console.log 'ping'
     @emit 'pong'
 
