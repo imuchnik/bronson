@@ -75,7 +75,7 @@
 
     Client.prototype.joinRoom = function(data) {
       var _ref;
-      if (!((data != null) && (data.userId != null) && (data.roomId != null) && (data.host != null))) {
+      if (!((data != null) && (data.userId != null) && (data.roomId != null))) {
         return;
       }
       if ((_ref = this.room) != null) {
@@ -87,6 +87,7 @@
     };
 
     Client.prototype.ping = function() {
+      console.log('ping');
       return this.emit('pong');
     };
 

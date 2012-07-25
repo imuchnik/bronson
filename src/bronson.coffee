@@ -1,5 +1,5 @@
 # Makes  the SocketIO server available to Bronson clients.
-exports.io = require 'socket.io'
+IO = require 'socket.io'
 
 Client = require('./client').Client
 Room = require('./room').Room
@@ -17,6 +17,6 @@ exports.setHost = (host, port) ->
 
 # Starts the Bronson server.
 exports.listen = (port) ->
-  io = exports.io.listen port
-  io.sockets.on 'connection', (socket) -> new Client(socket, httpController)
+  exports.io = IO.listen port
+  exports.io.sockets.on 'connection', (socket) -> new Client(socket, httpController)
   exports
