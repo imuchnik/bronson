@@ -16,7 +16,7 @@ exports.setHost = (host, port) ->
 
 
 # Starts the Bronson server.
-exports.listen = (port) ->
-  exports.io = IO.listen port
+exports.listen = (port, options = {}) ->
+  exports.io = IO.listen port, options
   exports.io.sockets.on 'connection', (socket) -> new Client(socket, httpController)
   exports
