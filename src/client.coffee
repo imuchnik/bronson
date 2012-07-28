@@ -3,10 +3,11 @@ Room = require('./room').Room
 class exports.Client
 
   constructor: (@socket, @httpController) ->
-    @socket.on 'join', @joinRoom
-    @socket.on 'send', @broadcast
     @socket.on 'disconnect', @disconnect
+    @socket.on 'join', @joinRoom
+    @socket.on 'observe rooms', @observeRooms
     @socket.on 'ping', @ping
+    @socket.on 'send', @broadcast
 
 
   # Allows a client to broadcast a message to all other clients in the room.
@@ -25,6 +26,8 @@ class exports.Client
 
     # Send anything in broadcast to all clients
     responseObject.broadcast = obj.broadcast if obj.broadcast?
+
+    console.log "#{@userId} sent #{eventString} to room '#{@room.id}'"
 
     if obj.backendRequest?
       return @error "No backend server specified" unless @httpController?
@@ -48,10 +51,13 @@ class exports.Client
   disconnect: =>
     @room?.removeClient(@)
 
+    console.log "#{@userId} has disconnected"
+
 
   # Sends the given message to this client.
   emit: (message, data) ->
     @socket.emit(message,data)
+
 
 
   # Sends the given error message to the client.
@@ -68,6 +74,19 @@ class exports.Client
     @room = Room.get(data.roomId)
     @room.addClient(@)
 
+    # Notify room observers.
+    observer.emit "room joined"
+    
+    console.log "#{data.userId} has joined room #{data.roomId}"
+
+
+  observeRooms: (data) ->
+
+    # Add the given client to the roomObservers list.
+    @roomObservers.push @socket
+    
+    # Send the current room setup to the client.
+    @socket.emit 'foo bar'
 
   # For diagnosing connection issues.
   ping: =>

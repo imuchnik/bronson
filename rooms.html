@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://coffeescript.org/extras/coffee-script.js"></script>
+    <script type="text/coffeescript">
+      $ ->
+
+        # The DOM list of rooms.
+        rooms_list = $ '#rooms'
+        
+        socket = io.connect window.location.origin
+
+        # Update UI on room activity.
+        socket.on 'room observer update', (data) ->
+          console.log data
+
+        # Subscribe to room updates.
+        socket.emit 'observe rooms'
+        
+    </script>
+  </head>
+  <body>
+    <h1>Rooms</h1>
+    <ul id="rooms"></ul>   
+  </body>
+</html>
+
