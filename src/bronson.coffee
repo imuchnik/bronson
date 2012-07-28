@@ -1,9 +1,9 @@
 # Makes  the SocketIO server available to Bronson clients.
 IO = require 'socket.io'
 
-Client = require('./client').Client
-Room = require('./room').Room
-HTTPController = require('./httpcontroller').HTTPController
+Client = require('./client')
+Room = require('./room')
+HTTPController = require('./httpcontroller')
 
 # The global HTTPController instance.
 httpController = null
