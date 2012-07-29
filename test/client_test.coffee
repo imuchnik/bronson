@@ -1,5 +1,5 @@
 assert = require 'assert'
-Client = require('../src/client').Client
+Client = require('../src/client')
 should = require('chai').should()
 sinon = require('sinon')
 

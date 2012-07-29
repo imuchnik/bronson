@@ -1,6 +1,6 @@
-Room = require('./room').Room
+Room = require('./room')
 
-class exports.Client
+class Client
 
   constructor: (@socket, @httpController) ->
     @socket.on 'disconnect', @disconnect
@@ -93,3 +93,4 @@ class exports.Client
     console.log 'ping'
     @emit 'pong'
 
+module.exports = Client

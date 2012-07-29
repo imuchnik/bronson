@@ -1,4 +1,4 @@
-class exports.Room
+class Room
   # Room.list
   # object of all rooms in the app
   @list: {}
@@ -29,3 +29,4 @@ class exports.Room
     for client in @clients
       client.emit(event,data)
 
+module.exports = Room
