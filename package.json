@@ -16,5 +16,5 @@
     "type": "git",
     "url": "git://github.com/Originate-Inc/bronson.git"
   },
-  "main": "bronson.js"
+  "main": "lib/bronson.js"
 }
