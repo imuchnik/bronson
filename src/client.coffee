@@ -16,35 +16,38 @@ class Client
   #     .path: URL path to backend API
   #     .method: 'POST', 'GET', or 'DELETE'
   #     .headers: object containing key-values for the HTTP header of the backend request.
-  broadcast: (obj) =>
-    return @error("Not in room") unless @room?
-    return @error("Missing data") unless obj?
+  broadcast: (data) =>
 
-    responseObject = {}
-    eventString = if obj.event? then obj.event else "update"
+    # Check for errors.
+    return @error("Not in a room") unless @room?
+    return @error("Missing data") unless data?
+    return @error("No event name given") unless data.event
 
-    # Send anything in broadcast to all clients
-    responseObject.broadcast = obj.broadcast if obj.broadcast?
+    # Prepare the response object.
+    response = {}
+    response.broadcast = data.broadcast if data.broadcast?
 
-    if obj.backendRequest?
+    if data.backendRequest?
+      # The broadcast event contains a backend request portion --> perform the backend request here.
+
       return @error "No backend server specified" unless @httpController?
 
-      # Send data to http server, relay response to clients
       @httpController.request(
-        data: obj.backendRequest.data
-        path: obj.backendRequest.path
-        method: obj.backendRequest.method
-        headers: obj.backendRequest.headers
+        data: data.backendRequest.data
+        path: data.backendRequest.path
+        method: data.backendRequest.method
+        headers: data.backendRequest.headers
         error: (error) -> console.error error
         success: (response) =>
-          responseObject.backendResponse = response
-          @room.broadcast(eventString, responseObject)
+          response.backendResponse = response
+          @room.broadcast data.event, response
       )
     else
-      @room.broadcast eventString, responseObject
+      # No backend request --> just broadcast immediately.
+      @room.broadcast data.event, response
 
 
-  # Called when the client disconnect.
+  # Called when the client disconnects.
   disconnect: =>
     @room?.removeClient(@)
     console.log "#{@userId} has disconnected"
