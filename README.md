@@ -1,6 +1,7 @@
-# Bronson [![Build Status](https://secure.travis-ci.org/Originate-Inc/bronson.png)](http://travis-ci.org/#!/Originate-Inc/bronson)
+# Browser ONline SynchrONization [![Build Status](https://secure.travis-ci.org/Originate-Inc/bronson.png)](http://travis-ci.org/#!/Originate-Inc/bronson)
 
-Bronson is a real time browser messaging framework with serverside integration.
+Bronson is a real time cross-platform messaging framework for browsers as well as mobile and desktop applications. It is based on the popular Socket.IO platform.
+
 
 ## Install
 ```bash
