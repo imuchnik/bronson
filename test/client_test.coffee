@@ -1,5 +1,5 @@
 assert = require 'assert'
-Client = require('../src/client').Client
+Client = require('../src/client')
 should = require('chai').should()
 sinon = require('sinon')
 
@@ -7,10 +7,11 @@ describe 'Client', ->
 
   client = mockSocket = mockHttpController = null
   beforeEach ->
-    mockSocket = { on: -> }
+    mockSocket = on: ->
+    mockBronson = emit: ->
     mockHttpController = {}
     mockHttpController.request = sinon.stub()
-    client = new Client mockSocket, mockHttpController
+    client = new Client mockSocket, mockBronson, mockHttpController
     client.error = sinon.spy()
     client.emit = sinon.spy()
 
