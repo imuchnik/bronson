@@ -1,4 +1,4 @@
-Room = require('./room').Room
+Room = require('./room')
 
 class Client
 
