@@ -1,3 +1,3 @@
 guard 'shell' do
-  watch(/test\/(.*).coffee/) {|m| `mocha --compilers coffee:coffee-script` }
+  watch(/test\/(.*).coffee/) {|m| `npm test` }
 end
