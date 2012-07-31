@@ -1,2 +1,2 @@
-Run tests like this: mocha --compilers coffee:coffee-script
+Run tests like this: npm test
 Run automatic tests like this: guard

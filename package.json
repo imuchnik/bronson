@@ -1,10 +1,15 @@
 {
   "name": "bronson",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "dependencies": {
     "socket.io": "0.9.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "latest",
+    "coffee-script": "latest",
+    "chai": "latest",
+    "sinon": "latest"
+  },
   "optionalDependencies": {},
   "engines": {
     "node": "*"
@@ -15,6 +20,9 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/Originate-Inc/bronson.git"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --compilers coffee:coffee-script"
   },
   "main": "lib/bronson.js"
 }
