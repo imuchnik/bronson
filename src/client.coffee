@@ -2,11 +2,11 @@ Room = require('./room').Room
 
 class exports.Client
 
-  constructor: (@socket, @httpController) ->
-    @socket.on 'join', @joinRoom
-    @socket.on 'send', @broadcast
+  constructor: (@socket, @bronson, @httpController) ->
     @socket.on 'disconnect', @disconnect
+    @socket.on 'join', @joinRoom
     @socket.on 'ping', @ping
+    @socket.on 'send', @broadcast
 
 
   # Allows a client to broadcast a message to all other clients in the room.
@@ -41,12 +41,13 @@ class exports.Client
           @room.broadcast(eventString, responseObject)
       )
     else
-      @room.broadcast(eventString, responseObject )
+      @room.broadcast eventString, responseObject
 
 
   # Called when the client disconnect.
   disconnect: =>
     @room?.removeClient(@)
+    console.log "#{@userId} has disconnected"
 
 
   # Sends the given message to this client.
@@ -68,9 +69,16 @@ class exports.Client
     @room = Room.get(data.roomId)
     @room.addClient(@)
 
+    console.log "#{data.userId} has joined room #{data.roomId}"
+
+    # Notify listeners.
+    @bronson.emit 'room joined', data
+
 
   # For diagnosing connection issues.
   ping: =>
     console.log 'ping'
     @emit 'pong'
 
+
+module.exports = Client

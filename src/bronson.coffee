@@ -1,22 +1,21 @@
 # Makes  the SocketIO server available to Bronson clients.
 IO = require 'socket.io'
-
-Client = require('./client').Client
-Room = require('./room').Room
-HTTPController = require('./httpcontroller').HTTPController
-
-# The global HTTPController instance.
-httpController = null
+Client = require('./client')
+Room = require('./room')
+HTTPController = require('./httpcontroller')
+EventEmitter = require('events').EventEmitter
 
 
-# Sets the backend host address.
-exports.setHost = (host, port) ->
-  httpController = new HTTPController host, port
-  exports
+class Bronson extends EventEmitter
+
+  constructor: (host, port) ->
+    @httpController = new HTTPController host, port if host
 
 
-# Starts the Bronson server.
-exports.listen = (port, options = {}) ->
-  exports.io = IO.listen port, options
-  exports.io.sockets.on 'connection', (socket) -> new Client(socket, httpController)
-  exports
+  # Starts the Bronson server.
+  listen: (port, options = {}) ->
+    @io = IO.listen port, options
+    @io.sockets.on 'connection', (socket) -> new Client(socket, @, @httpController)
+
+
+module.exports = Bronson
