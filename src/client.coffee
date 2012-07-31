@@ -1,6 +1,6 @@
 Room = require('./room').Room
 
-class exports.Client
+class Client
 
   constructor: (@socket, @bronson, @httpController) ->
     @socket.on 'disconnect', @disconnect
