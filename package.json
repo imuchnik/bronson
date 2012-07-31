@@ -8,7 +8,8 @@
     "mocha": "latest",
     "coffee-script": "latest",
     "chai": "latest",
-    "sinon": "latest"
+    "sinon": "latest",
+    "uglify-js": "latest"
   },
   "optionalDependencies": {},
   "engines": {
