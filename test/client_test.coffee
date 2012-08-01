@@ -1,44 +1,44 @@
 assert = require('assert')
-Client = require('../src/client')
+Connection = require('../src/connection')
 should = require('chai').should()
 sinon = require('sinon')
 
-describe 'Client', ->
+describe 'Connection', ->
 
-  client = mockSocket = mockHttpController = null
+  connection = mockSocket = mockHttpController = null
   beforeEach ->
     mockSocket = on: ->
     mockBronson = emit: ->
     mockHttpController = {}
     mockHttpController.request = sinon.stub()
-    client = new Client mockSocket, mockBronson, mockHttpController
-    client.error = sinon.spy()
-    client.emit = sinon.spy()
+    connection = new Connection mockSocket, mockBronson, mockHttpController
+    connection.error = sinon.spy()
+    connection.emit = sinon.spy()
 
 
   describe 'constructor', ->
 
     it 'stores the given socket', ->
-      client.socket.should.equal mockSocket
+      connection.socket.should.equal mockSocket
 
     it 'stores the given HttpController instance', ->
-      client.httpController.should.equal mockHttpController
+      connection.httpController.should.equal mockHttpController
 
 
   describe 'broadcast', ->
 
     it 'returns an error if the user is not in a room', ->
-      client.broadcast('foo')
-      client.error.should.have.been.calledOnce
+      connection.broadcast('foo')
+      connection.error.should.have.been.calledOnce
 
     it 'returns an error if no data is given', ->
-      client.broadcast()
-      client.error.should.have.been.calledOnce
+      connection.broadcast()
+      connection.error.should.have.been.calledOnce
 
     describe 'backend request', ->
       it 'returns an error if no backend is configured', ->
-        client.broadcast { backendRequest: 1 }
-        client.error.should.have.been.calledOnce
+        connection.broadcast { backendRequest: 1 }
+        connection.error.should.have.been.calledOnce
 
       it 'makes a request to the backend with the given data', ->
 
@@ -52,7 +52,7 @@ describe 'Client', ->
         it 'broadcasts the original broadcast data'
 
         describe 'backend request exception', ->
-          it 'sends an error back to the client'
+          it 'sends an error back to the connection'
           it 'logs the error on the console'
 
 
