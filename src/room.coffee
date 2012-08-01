@@ -5,45 +5,46 @@ class Room
 
   # All the rooms in the app.
   # Maps roomId to room instance.
-  @list: {}
+  @rooms: {}
 
   # Returns the room with the given id.
   # Creates a new room if one doesn't exist yet.
   @get: (roomId) ->
-    Room.list[roomId] = new Room(roomId) unless Room.list[roomId]?
-    Room.list[roomId]
+    Room.rooms[roomId] = new Room(roomId) unless Room.rooms[roomId]?
+    Room.rooms[roomId]
     
 
   constructor: (@id) ->
 
     # The clients that are currently subscribed to this room.
-    @clients = []
+    @connections = []
 
 
   # Adds the given client to this room.
-  addClient: (client) ->
-    @clients.push(client) unless @hasClient client
+  addConnection: (connection) ->
+    @connections.push(connection) unless @hasConnection connection
 
 
   # Sends the given event and data payload to all clients in this room.
   broadcast: (event, data) ->
-    client.emit(event,data) for client in @clients
+    connection.emit(event, data) for connection in @connections
 
 
   # Returns whether this room already contains the given client.
-  hasClient: (client) ->
-    @clients.indexOf(client) > -1
+  hasConnection: (connection) ->
+    @connections.indexOf(connection) > -1
 
 
   # Removes the given client from this room.
-  removeClient: (client) ->
+  removeConnection: (connection) ->
 
     # Remove the client from the room.
-    @clients[i..i] = [] if (i=@clients.indexOf(client)) > -1
+    pos = @connections.indexOf connection
+    @connections.splice(pos,1) if pos > -1
 
-    # Remove the room from the room list if nobody is left in it.
-    if @clients.length is 0
-      delete Room.list[@id]
+    # Remove the room from the room room if nobody is left in it.
+    if @connections.length == 0
+      delete Room.rooms[@id]
 
 
 module.exports = Room
