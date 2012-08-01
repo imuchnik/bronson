@@ -1,7 +1,7 @@
 assert = require('assert')
-Connection = require('../src/connection')
 should = require('chai').should()
 sinon = require('sinon')
+Connection = require('../src/connection')
 
 
 describe 'Connection', ->
@@ -44,17 +44,17 @@ describe 'Connection', ->
       it 'makes a request to the backend with the given data'
 
 
-      describe 'backend request done', ->
+      #      describe 'backend request done', ->
 
-        it 'performs a broadcast'
+      # it 'performs a broadcast'
 
-        it 'broadcasts the response from the backend'
+      # it 'broadcasts the response from the backend'
 
-        it 'broadcasts the original broadcast data'
+      # it 'broadcasts the original broadcast data'
 
-        describe 'backend request exception', ->
-          it 'sends an error back to the connection'
-          it 'logs the error on the console'
+      # describe 'backend request exception', ->
+      #   it 'sends an error back to the connection'
+      #   it 'logs the error on the console'
 
 
     describe 'no backend request', ->

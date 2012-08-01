@@ -47,30 +47,30 @@ class Connection
       @room.broadcast data.event, response
 
 
-  # Called when the client disconnects.
+  # Called on disconnect.
   disconnect: =>
-    @room?.removeClient(@)
+    @room?.removeConnection(@)
     console.log "#{@userId} has disconnected"
 
 
-  # Sends the given message to this client.
+  # Sends the given message to this connection.
   emit: (message, data) ->
     @socket.emit(message,data)
 
 
-  # Sends the given error message to the client.
+  # Sends the given error message to the connection.
   error: (errorMessage) ->
     @socket.emit 'error', errorMessage
 
 
-  # Called when a client requests to join the given room.
+  # Called when a connection requests to join the given room.
   joinRoom: (data) =>
     return unless data? and data.userId? and data.roomId?
 
-    @room?.removeClient(@)
+    @room?.removeConnection(@)
     @userId = data.userId
     @room = Room.get(data.roomId)
-    @room.addClient(@)
+    @room.addConnection(@)
 
     console.log "#{data.userId} has joined room #{data.roomId}"
 
