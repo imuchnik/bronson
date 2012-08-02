@@ -10,12 +10,6 @@ class Connection
 
 
   # Allows a client to broadcast a message to all other clients in the room.
-  # obj.broadcast contains what gets broadcasted to everyone else in the room after the optional backend request returns.
-  # obj.backendRequest: Object that describes the request to be sent to the backend.
-  #     .data: payload to be sent to backend
-  #     .path: URL path to backend API
-  #     .method: 'POST', 'GET', or 'DELETE'
-  #     .headers: object containing key-values for the HTTP header of the backend request.
   broadcast: (data) =>
 
     # Check for errors.
@@ -26,6 +20,9 @@ class Connection
     # Prepare the response object.
     response = {}
     response.broadcast = data.broadcast if data.broadcast?
+
+    # Log the event.
+    console.log "User '#{@userId}' broadcasts '#{data.event}' into room '#{@room.id}'."
 
     if data.backendRequest?
       # The broadcast event contains a backend request portion --> perform the backend request here.
@@ -60,6 +57,7 @@ class Connection
 
   # Sends the given error message to the connection.
   error: (errorMessage) ->
+    console.log "ERROR: #{errorMessage}"
     @socket.emit 'error', errorMessage
 
 
@@ -69,7 +67,7 @@ class Connection
 
     @room?.removeConnection(@)
     @userId = data.userId
-    @room = Room.get(data.roomId)
+    @room = Room.get data.roomId
     @room.addConnection(@)
 
     console.log "#{data.userId} has joined room #{data.roomId}"
