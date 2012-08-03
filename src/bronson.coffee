@@ -8,8 +8,11 @@ EventEmitter = require('events').EventEmitter
 
 class Bronson extends EventEmitter
 
-  constructor: (host, port) ->
+  constructor: (host, port, @options={}) ->
     @httpController = new HTTPController(host, port) if host
+
+    # Set default values for options.
+    @options.sendToSelf ||= yes
 
 
   # Starts the Bronson server.

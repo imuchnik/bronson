@@ -58,13 +58,25 @@ describe 'Room', ->
   describe 'broadcast', ->
 
     it 'emits the given message to each connection in this room', ->
-      connection_1 = emit: sinon.spy()
-      connection_2 = emit: sinon.spy()
-      room.connections = [connection_1, connection_2]
+      room.addConnection connection_1 = emit: sinon.spy()
+      room.addConnection connection_2 = emit: sinon.spy()
 
       room.broadcast 'foo', 'data'
+
       connection_1.emit.should.have.been.calledOnce
       connection_1.emit.args[0].should.eql ['foo', 'data']
+      connection_2.emit.should.have.been.calledOnce
+      connection_2.emit.args[0].should.eql ['foo', 'data']
+
+    it "doesn't emit the message to self if sendToSelf is false", ->
+      room.addConnection connection_1 = emit: sinon.spy()
+      room.addConnection connection_2 = emit: sinon.spy()
+
+      room.broadcast 'foo', 'data', no, connection_1
+
+      connection_1.emit.should.not.have.been.called
+      connection_2.emit.should.have.been.calledOnce
+      connection_2.emit.args[0].should.eql ['foo', 'data']
 
     it 'works if the connection list is empty', ->
       room.broadcast 'foo', 'data'

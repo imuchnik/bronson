@@ -26,8 +26,9 @@ class Room
 
 
   # Sends the given event and data payload to all clients in this room.
-  broadcast: (event, data) ->
-    connection.emit(event, data) for connection in @connections
+  broadcast: (event, data, sendToSelf, self) ->
+    for connection in @connections
+      connection.emit(event, data) if sendToSelf or connection isnt self
 
 
   # Returns whether this room already contains the given client.

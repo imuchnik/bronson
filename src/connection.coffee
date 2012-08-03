@@ -17,6 +17,9 @@ class Connection
     return @error("Missing data") unless data?
     return @error("No event name given") unless data.event
 
+    # Apply default sendToSelf if not provided.
+    sendToSelf = data.toSelf or @bronson.sendToSelf
+
     # Prepare the response object.
     response = {}
     response.broadcast = data.broadcast if data.broadcast?
@@ -37,11 +40,11 @@ class Connection
         error: (error) -> console.error error
         success: (response) =>
           response.backendResponse = response
-          @room.broadcast data.event, response
+          @room.broadcast data.event, response, sendToSelf, @
       )
     else
       # No backend request --> just broadcast immediately.
-      @room.broadcast data.event, response
+      @room.broadcast data.event, response, sendToSelf, @
 
 
   # Called on disconnect.
