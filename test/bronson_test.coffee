@@ -1,9 +1,4 @@
-assert = require 'assert'
-chai = require 'chai'
-should = chai.should()
-sinon = require 'sinon'
-chai.use require 'sinon-chai'
-
+sinon = require('./test_helper').sinon
 Bronson = require('../src/bronson')
 
 
