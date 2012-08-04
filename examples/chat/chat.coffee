@@ -13,7 +13,7 @@ app.listen 3000
 
 
 # This part starts the Chat server.
-Bronson = require '../..'
-bronson = new Bronson null
+Bronson = require 'bronson'
+bronson = new Bronson 'backend.host.address.com'
 bronson.listen app
 
