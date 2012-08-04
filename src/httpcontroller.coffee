@@ -3,7 +3,7 @@ http = require('http')
 
 class HttpController
 
-  constructor: (@hostname, @port) ->
+  constructor: (@hostname, @port=80) ->
 
   request: (obj) ->
     obj.data ?= {}
