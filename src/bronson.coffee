@@ -20,7 +20,7 @@ class Bronson extends EventEmitter
   # Starts the Bronson server.
   listen: (port, options = {}) ->
     @io = IO.listen port, options
-    @io.sockets.on 'connection', (socket) ->
+    @io.sockets.on 'connection', (socket) =>
       new Connection socket, @, @httpController
 
 
