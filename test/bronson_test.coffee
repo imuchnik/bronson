@@ -5,7 +5,6 @@ sinon = require 'sinon'
 chai.use require 'sinon-chai'
 
 Bronson = require('../src/bronson')
-Connection = require('../src/connection')
 
 
 describe 'Bronson', ->
@@ -13,7 +12,7 @@ describe 'Bronson', ->
   describe 'constructor', ->
 
     describe 'sendToSelf configuration option', ->
-      
+
       it 'is true by default', ->
         bronson = new Bronson
         bronson.options.sendToSelf.should.be.true
@@ -22,7 +21,7 @@ describe 'Bronson', ->
         bronson = new Bronson null, null, sendToSelf: false
         bronson.options.sendToSelf.should.be.false
 
-    describe 'httpController', ->
+    describe 'httpController instance', ->
 
       it 'creates an HttpController instance if a host is given', ->
         bronson = new Bronson 'host', 80

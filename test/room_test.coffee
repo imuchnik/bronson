@@ -1,6 +1,8 @@
-assert = require('assert')
-should = require('chai').should()
-sinon = require('sinon')
+assert = require 'assert'
+chai = require 'chai'
+should = chai.should()
+sinon = require 'sinon'
+chai.use require 'sinon-chai'
 Room = require('../src/room')
 
 

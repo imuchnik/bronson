@@ -1,6 +1,7 @@
-http = require('http')
+http = require 'http'
 
 
+# Manages the connection to the backend system.
 class HttpController
 
   constructor: (@hostname, @port=80) ->
@@ -45,6 +46,7 @@ class HttpController
 
     request.write(jsonString)
     request.end()
+
 
 
 module.exports = HttpController

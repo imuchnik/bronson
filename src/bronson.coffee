@@ -1,15 +1,17 @@
-# Makes  the SocketIO server available to Bronson clients.
 IO = require 'socket.io'
 Connection = require './connection'
 Room = require './room'
-HTTPController = require './httpcontroller'
+HttpController = require './httpcontroller'
 EventEmitter = require('events').EventEmitter
 
 
+# Provides room-based communication services on top of Socket.IO.
 class Bronson extends EventEmitter
 
   constructor: (host, port, @options={}) ->
-    @httpController = new HTTPController(host, port) if host
+
+    # Create HttpController instance if we have backend integration.
+    @httpController = new HttpController(host, port) if host
 
     # Set default values for options.
     @options.sendToSelf ?= yes
