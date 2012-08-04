@@ -41,7 +41,6 @@ describe 'Connection', ->
 
     describe 'sendToSelf', ->
 
-      mockRoom = null
       beforeEach ->
         connection.room = broadcast: sinon.spy()
 
