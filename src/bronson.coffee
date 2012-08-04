@@ -12,7 +12,7 @@ class Bronson extends EventEmitter
     @httpController = new HTTPController(host, port) if host
 
     # Set default values for options.
-    @options.sendToSelf ||= yes
+    @options.sendToSelf ?= yes
 
 
   # Starts the Bronson server.
