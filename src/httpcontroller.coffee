@@ -1,8 +1,7 @@
 http = require('http')
 
-exports.HTTPHost = ""
 
-class exports.HTTPController
+class HttpController
 
   constructor: (@hostname, @port) ->
 
@@ -43,3 +42,7 @@ class exports.HTTPController
 
     request.write(jsonString)
     request.end()
+
+
+module.exports = HttpController
+

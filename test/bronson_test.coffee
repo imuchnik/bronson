@@ -22,3 +22,12 @@ describe 'Bronson', ->
         bronson = new Bronson null, null, sendToSelf: false
         bronson.options.sendToSelf.should.be.false
 
+    describe 'httpController', ->
+
+      it 'creates an HttpController instance if a host is given', ->
+        bronson = new Bronson 'host', 80
+        bronson.httpController.should.exist
+
+      it 'does not create a HttpController instance if no host is given', ->
+        bronson = new Bronson
+        bronson.should.not.have.property 'httpController'
