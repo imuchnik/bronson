@@ -12,13 +12,12 @@ describe 'Connection', ->
   connection = mockSocket = mockHttpController = null
   beforeEach ->
     mockSocket = on: ->
-    mockBronson = emit: ->
+    mockBronson = testing: yes, options: { sendToSelf: true }, emit: ->
     mockHttpController = {}
     mockHttpController.request = sinon.stub()
     connection = new Connection mockSocket, mockBronson, mockHttpController
     connection.error = sinon.spy()
     connection.emit = sinon.spy()
-    connection.bronson = options: sendToSelf: true
 
 
   describe 'constructor', ->

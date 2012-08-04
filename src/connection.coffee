@@ -25,7 +25,7 @@ class Connection
     response.broadcast = data.broadcast if data.broadcast?
 
     # Log the event.
-    console.log "User '#{@userId}' broadcasts '#{data.event}' into room '#{@room.id}'."
+    console.log "User '#{@userId}' broadcasts '#{data.event}' into room '#{@room.id}'." unless @bronson.testing
 
     if data.backendRequest?
       # The broadcast event contains a backend request portion --> perform the backend request here.
