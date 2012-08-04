@@ -15,15 +15,14 @@ class HttpController
     obj.method ?= 'POST'
     obj.headers ?= {}
     obj.path = @sanitize_url obj.path
-
     jsonString = JSON.stringify(obj.data)
+
     options =
       host: @hostname
       port: @port
       path: obj.path
       method: obj.method
       headers: obj.headers
-
     options.headers['Content-Type'] = 'application/json'
     options.headers['Content-Length'] = Buffer.byteLength(jsonString,'utf8')
 

@@ -10,11 +10,11 @@ class Bronson extends EventEmitter
 
   constructor: (host, port, @options={}) ->
 
-    # Create HttpController instance if we have backend integration.
-    @httpController = new HttpController(host, port) if host
-
     # Set default values for options.
     @options.sendToSelf ?= yes
+
+    # Create HttpController instance if we have backend integration.
+    @httpController = new HttpController(host, port) if host
 
 
   # Starts the Bronson server.
