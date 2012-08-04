@@ -9,6 +9,7 @@
     "coffee-script": "latest",
     "chai": "latest",
     "sinon": "latest",
+    "sinon-chai": "latest",
     "uglify-js": "latest"
   },
   "optionalDependencies": {},

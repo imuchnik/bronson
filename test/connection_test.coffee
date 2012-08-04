@@ -1,6 +1,9 @@
-assert = require('assert')
-should = require('chai').should()
-sinon = require('sinon')
+assert = require 'assert'
+chai = require 'chai'
+should = chai.should()
+sinon = require 'sinon'
+chai.use require 'sinon-chai'
+
 Connection = require('../src/connection')
 
 
@@ -15,6 +18,7 @@ describe 'Connection', ->
     connection = new Connection mockSocket, mockBronson, mockHttpController
     connection.error = sinon.spy()
     connection.emit = sinon.spy()
+    connection.bronson = options: sendToSelf: true
 
 
   describe 'constructor', ->
@@ -35,6 +39,27 @@ describe 'Connection', ->
     it 'returns an error if no data is given', ->
       connection.broadcast()
       connection.error.should.have.been.calledOnce
+
+    describe 'sendToSelf', ->
+
+      mockRoom = null
+      beforeEach ->
+        connection.room = broadcast: sinon.spy()
+
+      it "uses the toSelf paramter if TRUE is given", ->
+        connection.broadcast toSelf: true, event: 'foo'
+        connection.room.broadcast.should.have.been.calledOnce
+        connection.room.broadcast.args[0][2].should.be.true
+
+      it "uses the toSelf paramter if FALSE is given", ->
+        connection.broadcast toSelf: false, event: 'foo'
+        connection.room.broadcast.should.have.been.calledOnce
+        connection.room.broadcast.args[0][2].should.be.false
+
+      it "uses bronsons default setting if the toSelf paramter is not provided", ->
+        connection.broadcast event: 'foo'
+        connection.room.broadcast.should.have.been.calledOnce
+        connection.room.broadcast.args[0][2].should.be.true
 
     describe 'backend request', ->
       it 'returns an error if no backend is configured', ->

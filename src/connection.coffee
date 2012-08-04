@@ -18,7 +18,7 @@ class Connection
     return @error("No event name given") unless data.event
 
     # Apply default sendToSelf if not provided.
-    sendToSelf = data.toSelf or @bronson.sendToSelf
+    sendToSelf = data.toSelf ?= @bronson.options.sendToSelf
 
     # Prepare the response object.
     response = {}
