@@ -46,19 +46,19 @@ describe 'Connection', ->
       beforeEach ->
         connection.room = broadcast: sinon.spy()
 
+      afterEach ->
+        connection.room.broadcast.should.have.been.calledOnce
+
       it "uses the toSelf paramter if TRUE is given", ->
         connection.broadcast toSelf: true, event: 'foo'
-        connection.room.broadcast.should.have.been.calledOnce
         connection.room.broadcast.args[0][2].should.be.true
 
       it "uses the toSelf paramter if FALSE is given", ->
         connection.broadcast toSelf: false, event: 'foo'
-        connection.room.broadcast.should.have.been.calledOnce
         connection.room.broadcast.args[0][2].should.be.false
 
       it "uses bronsons default setting if the toSelf paramter is not provided", ->
         connection.broadcast event: 'foo'
-        connection.room.broadcast.should.have.been.calledOnce
         connection.room.broadcast.args[0][2].should.be.true
 
     describe 'backend request', ->
