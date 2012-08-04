@@ -5,12 +5,15 @@ class HttpController
 
   constructor: (@hostname, @port=80) ->
 
+  # Removes all characters that should not be part of a url.
+  @sanitize_url: (url) ->
+    url.replace /[^a-z0-9/_.-]/ig, ""
+
   request: (obj) ->
     obj.data ?= {}
     obj.method ?= 'POST'
     obj.headers ?= {}
-
-    obj.path = obj.path.replace /[^a-z0-9/_.-]/ig, ""
+    obj.path = @sanitize_url obj.path
 
     jsonString = JSON.stringify(obj.data)
     options =

@@ -20,3 +20,12 @@ describe 'HttpController', ->
       httpController = new HttpController 'host'
       httpController.port.should.equal 80
 
+
+  describe 'sanitize_url', ->
+
+    it 'filters out special characters', ->
+      HttpController.sanitize_url('!@#$%^&*()|?_-/\\').should.equal '_-/'
+
+    it 'passes valid URLs', ->
+      HttpController.sanitize_url('www.bronson.com/bronson-is/the_best').should.equal 'www.bronson.com/bronson-is/the_best'
+
