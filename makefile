@@ -6,7 +6,7 @@ all:
 
 	@echo "Building client coffeescript"
 	coffee -o client/lib/ -c client/src/
-	cat client/src/* client/socket.io/socket.io.js > client/bronson.js
+	cat client/lib/* client/socket.io/socket.io.js > client/bronson.js
 	uglifyjs client/bronson.js > client/bronson.min.js
 
 	@echo
