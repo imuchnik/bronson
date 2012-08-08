@@ -1,29 +1,22 @@
 # BRowser ONline SynchrONization [![Build Status](https://secure.travis-ci.org/Originate-Inc/bronson.png)](http://travis-ci.org/#!/Originate-Inc/bronson)
 
 Bronson is a real-time, cross-platform instant messaging framework for web, hybrid, and native mobile and desktop applications, built on top of [Node.js](http://nodejs.org) and [Socket.IO](http://socket.io). 
-It provides two primary functions:
-
-1.  **Rooms:** Clients can enter dedicated _chat rooms_ to talk to other clients in that room. 
-    The visibility of broadcast messages is restricted to the _room_ that the emitting client is in. Several rooms can be active at a time, allowing for parallel, isolated communication. 
-
-2.  **[Backend integration](#backend-integration):** Besides the traditional broadcast of static payload directly to peers, Bronson's broadcast messages can include a dynamic backend portion. 
-    In this scenario, the Bronson platform performs the backend request first in the name of the emitting client, then includes the backend's response into the message broadcasted to all clients.
-
-    This is useful, for example, to notify participants in a room about new data objects that have to be created on the server first. 
-    Bronson allows to do both things (creating objects in the backend and notifying all other clients) using only one call from the emitting device, thereby saving bandwidth and battery life on it.
 
 
 ## Functionality
 
-### Supported platforms
 
-* __Desktop web browsers:__ IE 6+, FF 3+, Safari 3+, Chrome 4+, Opera 10+
-* __Mobile browsers:__ iOS Safari, Android WebKit, [Android Chrome](https://play.google.com/store/apps/details?id=com.android.chrome)
-* __Hybrid mobile applications:__ [PhoneGap](http://phonegap.com), [RhoMobile](http://www.motorola.com/Business/US-EN/Business+Product+and+Services/Software+and+Applications/RhoMobile+Suite), [Sencha](http://www.sencha.com), [Titanium Appcelerator](http://www.appcelerator.com)
-* __Native mobile applications:__ iOS (via [socket.IO-objc](https://github.com/pkyeck/socket.IO-objc)), Android (via [java-socket.io.client](https://github.com/clwillingham/java-socket.io.client))
+### Rooms
+Clients can enter dedicated _chat rooms_ to talk to other clients in that room. 
+The visibility of broadcast messages is restricted to the _room_ that the emitting client is in. Several rooms can be active at a time, allowing for parallel, isolated communication. 
 
 
 ### Backend integration
+Besides the traditional broadcast of static payload directly to peers, Bronson's broadcast messages can include a dynamic backend portion. 
+In this scenario, the Bronson platform performs the backend request first in the name of the emitting client, then includes the backend's response into the message broadcasted to all clients.
+
+This is useful, for example, to notify participants in a room about new data objects that have to be created on the server first. 
+Bronson allows to do both things (creating objects in the backend and notifying all other clients) using only one call from the emitting device, thereby saving bandwidth and battery life on it.
 
 <table>
   <tr>
@@ -83,6 +76,13 @@ It provides two primary functions:
   </tr>
 </table>
 
+
+### Supported platforms
+
+* __Desktop web browsers:__ IE 6+, FF 3+, Safari 3+, Chrome 4+, Opera 10+
+* __Mobile browsers:__ iOS Safari, Android WebKit, [Android Chrome](https://play.google.com/store/apps/details?id=com.android.chrome)
+* __Hybrid mobile applications:__ [PhoneGap](http://phonegap.com), [RhoMobile](http://www.motorola.com/Business/US-EN/Business+Product+and+Services/Software+and+Applications/RhoMobile+Suite), [Sencha](http://www.sencha.com), [Titanium Appcelerator](http://www.appcelerator.com)
+* __Native mobile applications:__ iOS (via [socket.IO-objc](https://github.com/pkyeck/socket.IO-objc)), Android (via [java-socket.io.client](https://github.com/clwillingham/java-socket.io.client))
 
 
 ## How to use
