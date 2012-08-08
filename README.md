@@ -5,6 +5,16 @@ Bronson is a real-time, cross-platform instant messaging framework for web, hybr
 
 ## Functionality
 
+Bronson shines in three areas: a wide array of Supported platforms, isolated communication channels (rooms), as well as an integration of existing backend APIs into the broadcasting platform.
+
+
+### Supported platforms
+
+* __Desktop web browsers:__ IE 6+, FF 3+, Safari 3+, Chrome 4+, Opera 10+
+* __Mobile browsers:__ iOS Safari, Android WebKit, [Android Chrome](https://play.google.com/store/apps/details?id=com.android.chrome)
+* __Hybrid mobile applications:__ [PhoneGap](http://phonegap.com), [RhoMobile](http://www.motorola.com/Business/US-EN/Business+Product+and+Services/Software+and+Applications/RhoMobile+Suite), [Sencha](http://www.sencha.com), [Titanium Appcelerator](http://www.appcelerator.com)
+* __Native mobile applications:__ iOS (via [socket.IO-objc](https://github.com/pkyeck/socket.IO-objc)), Android (via [java-socket.io.client](https://github.com/clwillingham/java-socket.io.client))
+
 
 ### Rooms
 Clients can enter dedicated _chat rooms_ to talk to other clients in that room. 
@@ -75,14 +85,6 @@ Bronson allows to do both things (creating objects in the backend and notifying 
     </td>
   </tr>
 </table>
-
-
-### Supported platforms
-
-* __Desktop web browsers:__ IE 6+, FF 3+, Safari 3+, Chrome 4+, Opera 10+
-* __Mobile browsers:__ iOS Safari, Android WebKit, [Android Chrome](https://play.google.com/store/apps/details?id=com.android.chrome)
-* __Hybrid mobile applications:__ [PhoneGap](http://phonegap.com), [RhoMobile](http://www.motorola.com/Business/US-EN/Business+Product+and+Services/Software+and+Applications/RhoMobile+Suite), [Sencha](http://www.sencha.com), [Titanium Appcelerator](http://www.appcelerator.com)
-* __Native mobile applications:__ iOS (via [socket.IO-objc](https://github.com/pkyeck/socket.IO-objc)), Android (via [java-socket.io.client](https://github.com/clwillingham/java-socket.io.client))
 
 
 ## How to use
