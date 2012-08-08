@@ -11,6 +11,8 @@ Bronson shines in three areas:
 2. Isolated communication channels ([rooms](#rooms))
 3. Integration of existing [backend APIs](#backend-integration) into the broadcasting platform.
 
+More details below.
+
 
 ### Supported platforms
 
