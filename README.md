@@ -23,7 +23,7 @@ More details below.
 
 ### Rooms
 Clients can enter dedicated _chat rooms_ to talk to other clients in that room. 
-The visibility of broadcast messages is restricted to the _room_ that the emitting client is in. Several rooms can be active at a time, allowing for parallel, isolated communication. 
+The visibility of broadcast messages is restricted to the room that the emitting client is in. Several rooms can be active at a time, allowing for parallel, isolated communication patterns. 
 
 
 ### Backend integration
