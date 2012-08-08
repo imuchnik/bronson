@@ -47,7 +47,7 @@ In this scenario, the Bronson platform first performs a specified request to the
       <b>Step 2</b>
     </td>
     <td>
-      A client emits a broadcast message with a backend portion to the Bronson server.
+      A client emits a broadcast message that includes a backend request to the Bronson server.
     </td>
     <td>
       <img src="http://originate-inc.github.com/bronson/2.png">
