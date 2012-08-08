@@ -41,7 +41,7 @@ It provides two primary functions:
       A client emits a broadcast message with a backend portion to the Bronson server.
     </td>
     <td>
-      <img src="http://originate-inc.github.com/bronson/schema.png">
+      <img src="http://originate-inc.github.com/bronson/2.png">
     </td>
   </tr>
   <tr>
@@ -51,7 +51,7 @@ It provides two primary functions:
       The Bronson server forwards the request, including all request headers and cookies, to the backend system.
     </td>
     <td>
-      <img src="http://originate-inc.github.com/bronson/schema.png">
+      <img src="http://originate-inc.github.com/bronson/3.png">
     </td>
   </tr>
   <tr>
@@ -61,7 +61,7 @@ It provides two primary functions:
       The backend system responds to the Bronson server. No traffic to the clients happens at this stage.
     </td>
     <td>
-      <img src="http://originate-inc.github.com/bronson/schema.png">
+      <img src="http://originate-inc.github.com/bronson/4.png">
     </td>
   </tr>
   <tr>
@@ -71,7 +71,7 @@ It provides two primary functions:
       The Bronson server broadcasts the original broadcast message, including the response from the backend, to all clients.
     </td>
     <td>
-      <img src="http://originate-inc.github.com/bronson/schema.png">
+      <img src="http://originate-inc.github.com/bronson/5.png">
     </td>
   </tr>
 </table>
