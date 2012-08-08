@@ -13,7 +13,9 @@ It provides two primary functions:
     Bronson allows to do both things (creating objects in the backend and notifying all other clients) using only one call from the emitting device, thereby saving bandwidth and battery life on it.
 
 
-## Supported platforms
+## Functionality
+
+### Supported platforms
 
 * __Desktop web browsers:__ IE 6+, FF 3+, Safari 3+, Chrome 4+, Opera 10+
 * __Mobile browsers:__ iOS Safari, Android WebKit, [Android Chrome](https://play.google.com/store/apps/details?id=com.android.chrome)
@@ -25,9 +27,10 @@ It provides two primary functions:
 
 <table>
   <tr>
-    <td valign="top">
+    <td width="60px">
       <b>Step 1</b>
-      <br><br>
+    </td>
+    <td>
       Clients load from the backend system and set up a persistent connection to the Bronson server.
     </td>
     <td>
@@ -35,9 +38,10 @@ It provides two primary functions:
     </td>
   </tr>
   <tr>
-    <td valign="top">
+    <td>
       <b>Step 2</b>
-      <br><br>
+    </td>
+    <td>
       A client emits a broadcast message with a backend portion to the Bronson server.
     </td>
     <td>
@@ -45,9 +49,10 @@ It provides two primary functions:
     </td>
   </tr>
   <tr>
-    <td valign="top">
+    <td>
       <b>Step 3</b>
-      <br><br>
+    </td>
+    <td>
       The Bronson server forwards the request, including all request headers and cookies, to the backend system.
     </td>
     <td>
@@ -55,9 +60,10 @@ It provides two primary functions:
     </td>
   </tr>
   <tr>
-    <td valign="top">
+    <td>
       <b>Step 4</b>
-      <br><br>
+    </td>
+    <td>
       The backend system responds to the Bronson server. No traffic to the clients happens at this stage.
     </td>
     <td>
@@ -65,9 +71,10 @@ It provides two primary functions:
     </td>
   </tr>
   <tr>
-    <td valign="top">
+    <td>
       <b>Step 5</b>
-      <br><br>
+    </td>
+    <td>
       The Bronson server broadcasts the original broadcast message, including the response from the backend, to all clients.
     </td>
     <td>
@@ -75,6 +82,7 @@ It provides two primary functions:
     </td>
   </tr>
 </table>
+
 
 
 ## How to use
@@ -103,11 +111,13 @@ $ coffee server.coffee
 
 ### Chat server example.
 
-More complete usage examples are given in the `/examples` directory.
+More complete usage examples are given in the [/examples](https://github.com/Originate-Inc/bronson/tree/master/examples) directory.
 
-The _chat_ directory contains a fully functional chat application.
-The server portion, _chat.coffee_, creates a web server that serves an HTML file as well as a Bronson server for real-time broadcasting in only 12 lines of CoffeeScript.
-The client portion, _chat.html_, connects to the server, logs into a room, announces the user to the other participants, and provides facilities as well as UI for sending and receiving chat messages in only 10 lines of CoffeeScript.
+The [chat](https://github.com/Originate-Inc/bronson/tree/master/examples/chat) directory contains a fully functional chat application.
+The server portion, [chat.coffee](https://github.com/Originate-Inc/bronson/blob/master/examples/chat/chat.coffee), 
+creates a web server that serves an HTML file as well as a Bronson server for real-time broadcasting in only 12 lines of CoffeeScript.
+The client portion, [chat.html](https://github.com/Originate-Inc/bronson/blob/master/examples/chat/chat.html),
+connects to the server, logs into a room, announces the user to the other participants, and provides facilities as well as UI for sending and receiving chat messages in only 10 lines of CoffeeScript.
 
 
 ## Development
@@ -130,4 +140,5 @@ $ guard
 ## Authors
 
 Bronson is developed by [Alex David](https://github.com/alexdavid) and [Kevin Goslar](https://github.com/kevgo) at [Originate Inc.](http://originate.com), and is in production use for a variety of internal and external projects.
+
 
