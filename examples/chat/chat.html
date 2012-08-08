@@ -21,10 +21,13 @@
         # Announce yourself to the people already in the room.
         socket.emit 'send', event: 'message', broadcast: "#{username} entered the room."
         
-        # Send a message.
+        # Called when the user clicks on the "Say" button.
         window.sendMessage = ->
-          message = $('#message').val()
-          socket.emit 'send', { event: 'message', broadcast: "#{username}: #{message}" }
+
+          # Send the update to other chat participants.
+          socket.emit 'send', { event: 'message', broadcast: "#{username}: #{$('#message').val()}" }
+
+          # Clear the input field.
           $('#message').val('')
 
         # Focus the input field.

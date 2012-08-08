@@ -1,27 +1,57 @@
 # BRowser ONline SynchrONization [![Build Status](https://secure.travis-ci.org/Originate-Inc/bronson.png)](http://travis-ci.org/#!/Originate-Inc/bronson)
 
-Bronson is a NodeJS framework built on top [Socket.IO](http://socket.io) that provides two primary functions:
-* It allows clients to join rooms where they can broadcast messages to all other clients in the room.
-* It allows clients to make ajax style requests to a backend server and have the response be pushed to all connected clients in the room.
+Bronson is a real-time, cross-platform instant messaging framework for web, hybrid, and native mobile and desktop applications, built on top of [Node.js](http://nodejs.org) and [Socket.IO](http://socket.io). 
+It provides two primary functions:
 
-Bronson is developed by [Alex David](https://github.com/alexdavid) and [Kevin Goslar](https://github.com/kevgo) at [Originate Inc.](http://originate.com), and is in production use for a variety of internal and external projects.
+1.  **Rooms:** Clients can enter dedicated _chat rooms_ to talk to other clients in that room. 
+    The visibility of broadcast messages is restricted to the _room_ that the emitting client is in. Several rooms can be active at a time, allowing for parallel, isolated communication. 
+
+2.  **Backend integration:** Besides the traditional broadcast of static payload directly to peers, Bronson's broadcast messages can include a dynamic backend portion. 
+    In this scenario, the Bronson platform performs the backend request first in the name of the emitting client, then includes the backend's response into the message broadcasted to all clients.
+
+    This is useful, for example, to notify participants in a room about new data objects that have to be created on the server first. 
+    Bronson allows to do both things (creating objects in the backend and notifying all other clients) using only one call from the emitting device, thereby saving bandwidth and battery life on it.
 
 
-## Installation
+## Supported platforms
+
+* __Desktop web browsers:__ IE 6+, FF 3+, Safari 3+, Chrome 4+, Opera 10+
+* __Mobile browsers:__ iOS Safari, Android WebKit, [Android Chrome](https://play.google.com/store/apps/details?id=com.android.chrome)
+* __Hybrid mobile applications:__ [PhoneGap](http://phonegap.com), [RhoMobile](http://www.motorola.com/Business/US-EN/Business+Product+and+Services/Software+and+Applications/RhoMobile+Suite), [Sencha](http://www.sencha.com), [Titanium Appcelerator](http://www.appcelerator.com)
+* __Native mobile applications:__ iOS (via [socket.IO-objc](https://github.com/pkyeck/socket.IO-objc)), Android (via [java-socket.io.client](https://github.com/clwillingham/java-socket.io.client))
+
+
+## How to use
+
+### Creating a Bronson server
+
+Install the NPM module.
 
 ```bash
 $ npm install bronson
 ```
 
-## Usage
+Now, create a file called _server.coffee_, with this content:
 
 ```CoffeeScript
 Bronson = require 'bronson'
-bronson = new Bronson "backend.host.name"
-bronson.listen app
+bronson = new Bronson "api.my-backend-host.com"
+bronson.listen 3000
 ```
 
-Usage examples are given in the `examples` directory.
+You can start this server like so:
+
+```bash
+$ coffee server.coffee
+```
+
+### Chat server example.
+
+More complete usage examples are given in the `/examples` directory.
+
+The _chat_ directory contains a fully functional chat application.
+The server portion, _chat.coffee_, creates a web server that serves an HTML file as well as a Bronson server for real-time broadcasting in only 12 lines of CoffeeScript.
+The client portion, _chat.html_, connects to the server, logs into a room, announces the user to the other participants, and provides facilities as well as UI for sending and receiving chat messages in only 10 lines of CoffeeScript.
 
 
 ## Development
@@ -39,3 +69,9 @@ You can alternatively run tests automatically with guard:
 ```bash
 $ guard
 ```
+
+
+## Authors
+
+Bronson is developed by [Alex David](https://github.com/alexdavid) and [Kevin Goslar](https://github.com/kevgo) at [Originate Inc.](http://originate.com), and is in production use for a variety of internal and external projects.
+
