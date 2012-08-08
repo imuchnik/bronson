@@ -21,6 +21,62 @@ It provides two primary functions:
 * __Native mobile applications:__ iOS (via [socket.IO-objc](https://github.com/pkyeck/socket.IO-objc)), Android (via [java-socket.io.client](https://github.com/clwillingham/java-socket.io.client))
 
 
+### Backend integration
+
+<table>
+  <tr>
+    <td valign="top">
+      <b>Step 1</b>
+      <br><br>
+      Clients load from the backend system and set up a persistent connection to the Bronson server.
+    </td>
+    <td>
+      <img src="http://originate-inc.github.com/bronson/1.png">
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <b>Step 2</b>
+      <br><br>
+      A client emits a broadcast message with a backend portion to the Bronson server.
+    </td>
+    <td>
+      <img src="http://originate-inc.github.com/bronson/schema.png">
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <b>Step 3</b>
+      <br><br>
+      The Bronson server forwards the request, including all request headers and cookies, to the backend system.
+    </td>
+    <td>
+      <img src="http://originate-inc.github.com/bronson/schema.png">
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <b>Step 4</b>
+      <br><br>
+      The backend system responds to the Bronson server. No traffic to the clients happens at this stage.
+    </td>
+    <td>
+      <img src="http://originate-inc.github.com/bronson/schema.png">
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <b>Step 5</b>
+      <br><br>
+      The Bronson server broadcasts the original broadcast message, including the response from the backend, to all clients.
+    </td>
+    <td>
+      <img src="http://originate-inc.github.com/bronson/schema.png">
+    </td>
+  </tr>
+</table>
+
+
 ## How to use
 
 ### Creating a Bronson server
