@@ -6,7 +6,7 @@ It provides two primary functions:
 1.  **Rooms:** Clients can enter dedicated _chat rooms_ to talk to other clients in that room. 
     The visibility of broadcast messages is restricted to the _room_ that the emitting client is in. Several rooms can be active at a time, allowing for parallel, isolated communication. 
 
-2.  **Backend integration:** Besides the traditional broadcast of static payload directly to peers, Bronson's broadcast messages can include a dynamic backend portion. 
+2.  **[Backend integration](#backend-integration):** Besides the traditional broadcast of static payload directly to peers, Bronson's broadcast messages can include a dynamic backend portion. 
     In this scenario, the Bronson platform performs the backend request first in the name of the emitting client, then includes the backend's response into the message broadcasted to all clients.
 
     This is useful, for example, to notify participants in a room about new data objects that have to be created on the server first. 
