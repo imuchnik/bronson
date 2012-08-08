@@ -15,7 +15,6 @@ More details below.
 
 
 ### Supported platforms
-
 * __Desktop web browsers:__ IE 6+, FF 3+, Safari 3+, Chrome 4+, Opera 10+
 * __Mobile browsers:__ iOS Safari, Android WebKit, [Android Chrome](https://play.google.com/store/apps/details?id=com.android.chrome)
 * __Hybrid mobile applications:__ [PhoneGap](http://phonegap.com), [RhoMobile](http://www.motorola.com/Business/US-EN/Business+Product+and+Services/Software+and+Applications/RhoMobile+Suite), [Sencha](http://www.sencha.com), [Titanium Appcelerator](http://www.appcelerator.com)
