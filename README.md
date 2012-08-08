@@ -28,10 +28,7 @@ The visibility of broadcast messages is restricted to the room that the emitting
 
 ### Backend integration
 Besides the traditional broadcast of static payload directly to peers, Bronson's broadcast messages can include a dynamic backend portion. 
-In this scenario, the Bronson platform performs the backend request first in the name of the emitting client, then includes the backend's response into the message broadcasted to all clients.
-
-This is useful, for example, to notify participants in a room about new data objects that have to be created on the server first. 
-Bronson allows to do both things (creating objects in the backend and notifying all other clients) using only one call from the emitting device, thereby saving bandwidth and battery life on it.
+In this scenario, the Bronson platform first performs a specified request to the backend API for the emitting client, then includes the backend's response into the message broadcasted to all clients.
 
 <table>
   <tr>
@@ -90,6 +87,9 @@ Bronson allows to do both things (creating objects in the backend and notifying 
     </td>
   </tr>
 </table>
+
+This is useful, for example, to notify participants in a room about new data objects that have to be created on the server first. 
+Bronson allows to do both things (creating objects in the backend and notifying all other clients) using only one call from the emitting device, thereby saving bandwidth and battery life on it.
 
 
 ## How to use
