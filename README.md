@@ -1,4 +1,4 @@
-# BRowser ONline SynchrONization [![Build Status](https://secure.travis-ci.org/Originate-Inc/bronson.png)](http://travis-ci.org/#!/Originate-Inc/bronson)
+# BRowser ONline SynchrONization <a href="https://secure.travis-ci.org/#!/Originate-Inc/bronson" target="_blank"><img src="https://secure.travis-ci.org/Originate-Inc/bronson.png" alt="Build status"></a>
 
 Bronson is a real-time, cross-platform instant messaging framework for web, hybrid, and native mobile and desktop applications, built on top of [Node.js](http://nodejs.org) and [Socket.IO](http://socket.io). 
 
