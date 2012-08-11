@@ -5,7 +5,7 @@ Bronson is a real-time, cross-platform instant messaging framework for web, hybr
 
 ## Functionality
 
-Bronson shines in three areas: 
+Bronson shines in three dedicated areas: 
 
 1. A wide array of [supported platforms](#supported-platforms)
 2. Isolated communication channels ([rooms](#rooms))
