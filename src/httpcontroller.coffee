@@ -35,8 +35,8 @@ class HttpController
         err = "Response status code returned #{response.statusCode}. Expected 200" unless response.statusCode is 200
         unless err
           obj.success responseBody
-
-          obj.error error
+        else
+          obj.error err
       )
     )
 
