@@ -14,7 +14,7 @@ class HttpController
     obj.data ?= {}
     obj.method ?= 'POST'
     obj.headers ?= {}
-    obj.path = @sanitize_url obj.path
+    obj.path = HttpController.sanitize_url obj.path
     jsonString = JSON.stringify(obj.data)
 
     options =
@@ -31,14 +31,11 @@ class HttpController
       responseBody = ""
       response.on('data', (chunk) -> responseBody += chunk )
       response.on('end', ->
-        try
-          console.log responseBody
-          if responseBody.trim() isnt ''
-            obj.success JSON.parse(responseBody)
-          else
-            obj.success()
-        catch error
-          # if the server returns invalid JSON catch it
+
+        err = "Response status code returned #{response.statusCode}. Expected 200" unless response.statusCode is 200
+        unless err
+          obj.success responseBody
+
           obj.error error
       )
     )
