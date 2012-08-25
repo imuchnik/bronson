@@ -1,13 +1,11 @@
 all:
-	@PATH=./node_modules/.bin/
-
 	@echo "Building server coffeescript"
-	coffee -o lib/ -c src/
-
+	./node_modules/.bin/coffee -o lib/ -c src/
+	
 	@echo "Building client coffeescript"
-	coffee -o client/lib/ -c client/src/
+	./node_modules/.bin/coffee -o client/lib/ -c client/src/
 	cat client/lib/* client/socket.io/socket.io.js > client/bronson.js
-	uglifyjs client/bronson.js > client/bronson.min.js
-
+	./node_modules/.bin/uglifyjs client/bronson.js > client/bronson.min.js
+	
 	@echo
 	@echo "Done."
