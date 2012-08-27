@@ -33,7 +33,7 @@ describe 'Bronson', ->
 
     it 'serves the client-side library as /bronson/bronson.js', (done) ->
       bronson = new Bronson
-      bronson.listen 8080
+      bronson.listen 8080, "log level": 0
       requestOptions =
         host: 'localhost'
         port: 8080
