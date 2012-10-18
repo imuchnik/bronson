@@ -22,7 +22,12 @@ class Bronson extends EventEmitter
   # Handles http request for client library
   handleHttp: (req, res) =>
     if req.url is '/bronson/bronson.js'
-      FS.readFile "#{__dirname}/../client/bronson.min.js", (err, fsData) -> res.end fsData.toString()
+      FS.readFile "#{__dirname}/../client/bronson.min.js", (err, fsData) ->
+        script = fsData.toString()
+        res.writeHead 200,
+          'Content-Type': 'text/javascript'
+          'Content-Length': Buffer.byteLength script, 'utf8'
+        res.end script
 
 
   # Starts the Bronson server.
