@@ -1,4 +1,6 @@
 all:
+	npm install
+	
 	@echo "Building server coffeescript"
 	./node_modules/.bin/coffee -o lib/ -c src/
 	
