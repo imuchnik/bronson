@@ -38,8 +38,8 @@ class Connection
         method: data.backendRequest.method
         headers: data.backendRequest.headers
         error: (error) -> console.error error
-        success: (response) =>
-          response.backendResponse = response
+        success: (data) =>
+          response.backendResponse = data
           @room.broadcast data.event, response, data.toSelf, @
       )
     else
