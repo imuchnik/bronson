@@ -1,6 +1,7 @@
 sinon = require('./test_helper').sinon
 http = require 'http'
 fs = require 'fs'
+portFinder = require 'portfinder'
 Bronson = require('../src/bronson')
 
 
@@ -31,12 +32,19 @@ describe 'Bronson', ->
 
   describe 'listen', ->
 
+    unused_port = null
+    beforeEach (done) ->
+      portFinder.getPort (err, port) ->
+        throw err if err
+        unused_port = port
+        done()
+
     it 'serves the client-side library as /bronson/bronson.js', (done) ->
       bronson = new Bronson
-      bronson.listen 8080, "log level": 0
+      bronson.listen unused_port, "log level": 0
       requestOptions =
         host: 'localhost'
-        port: 8080
+        port: unused_port
         path: '/bronson/bronson.js'
 
       httpData = ''
