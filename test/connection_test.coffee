@@ -61,25 +61,45 @@ describe 'Connection', ->
         connection.broadcast event: 'foo'
         connection.room.broadcast.args[0][2].should.be.true
 
+
     describe 'backend request', ->
-      it 'returns an error if no backend is configured', ->
-        connection.broadcast backendRequest: 1
-        connection.error.should.have.been.calledOnce
 
-      it 'makes a request to the backend with the given data'
+      broadcastObject = onHttpRequest = null
+      beforeEach ->
+        onHttpRequest = ->
+        connection.room = broadcast: sinon.spy()
+        broadcastObject =
+          event: 'foo'
+          broadcast: 'bc data'
+          backendRequest: data: 'be data'
+        mockHttpController.request = (backendRequest) ->
+          onHttpRequest.apply {}, arguments
+          backendRequest.success 'be response'
+
+      it 'makes a request to the backend with the given data', (done) ->
+        onHttpRequest = (backendRequest) ->
+          backendRequest.data.should.eql 'be data'
+          done()
+        connection.broadcast broadcastObject
 
 
-      #      describe 'backend request done', ->
+      describe 'backend request done', ->
 
-      # it 'performs a broadcast'
+        it 'broadcasts the original broadcast data', (done) ->
+          connection.room.broadcast = (event, data) ->
+            data.broadcast.should.eql 'bc data'
+            done()
+          connection.broadcast broadcastObject
 
-      # it 'broadcasts the response from the backend'
+        it 'broadcasts the response from the backend', (done) ->
+          connection.room.broadcast = (event, data) ->
+            data.backendResponse.should.eql 'be response'
+            done()
+          connection.broadcast broadcastObject
 
-      # it 'broadcasts the original broadcast data'
-
-      # describe 'backend request exception', ->
-      #   it 'sends an error back to the connection'
-      #   it 'logs the error on the console'
+        describe 'backend request exception', ->
+          it 'sends an error back to the connection'
+          it 'logs the error on the console'
 
 
     describe 'no backend request', ->
