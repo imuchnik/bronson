@@ -31,12 +31,9 @@ class HttpController
       responseBody = ""
       response.on('data', (chunk) -> responseBody += chunk )
       response.on('end', ->
-
-        err = "Response status code returned #{response.statusCode}. Expected 200" unless response.statusCode is 200
-        unless err
-          obj.success responseBody
-        else
-          obj.error err
+        obj.success
+          status: response.statusCode
+          body: responseBody
       )
     )
 

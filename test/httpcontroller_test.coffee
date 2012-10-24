@@ -50,9 +50,11 @@ describe 'HttpController', ->
       httpController.request requestOptions
 
 
-    it 'calls error callback if server returns an error', (done) ->
+    it 'passes the returned status code from the server', (done) ->
       requestFunction = (req, res) -> res.writeHead 404
-      requestOptions.error = -> done()
+      requestOptions.success = (res) ->
+        res.status.should.eql 404
+        done()
       httpController.request requestOptions
 
 
@@ -87,7 +89,7 @@ describe 'HttpController', ->
       responseBody = "This is the response data"
       requestFunction = (req, res) -> res.write responseBody
       requestOptions.success = (res) ->
-        res.should.equal responseBody
+        res.body.should.eql responseBody
         done()
       httpController.request requestOptions
 
