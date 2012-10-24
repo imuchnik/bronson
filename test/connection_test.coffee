@@ -30,9 +30,16 @@ describe 'Connection', ->
       connection.broadcast 'foo'
       connection.error.should.have.been.calledOnce
 
+    it 'returns an error if no event name is given', ->
+      connection.room = {}
+      connection.broadcast {}
+      connection.error.should.have.been.calledOnce
+
     it 'returns an error if no data is given', ->
+      connection.room = {}
       connection.broadcast()
       connection.error.should.have.been.calledOnce
+
 
     describe 'sendToSelf', ->
 
