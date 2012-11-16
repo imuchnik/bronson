@@ -31,6 +31,11 @@ class Room
       connection.emit(event, data) if sendToSelf or connection isnt self
 
 
+  # Returns array of connection userIds connected to the room
+  getUserIds: ->
+    connection.userId for connection in @connections
+
+
   # Returns whether this room already contains the given client.
   hasConnection: (connection) ->
     @connections.indexOf(connection) > -1

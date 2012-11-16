@@ -1,9 +1,9 @@
 IO = require 'socket.io'
-HTTP = require 'http'
 FS = require 'fs'
 Connection = require './connection'
 Room = require './room'
 BackendHandler = require './backend_handler'
+HttpServer = require './http_server'
 EventEmitter = require('events').EventEmitter
 
 
@@ -21,15 +21,9 @@ class Bronson extends EventEmitter
 
   # Starts the Bronson server.
   listen: (port, options = {}) ->
-    if typeof port is 'number'
-      httpServer = HTTP.createServer @handleHttp
-      httpServer.listen port
-    else
-      # an existing http server was passed instead of a port
-      httpServer = port
-      httpServer.on 'request', @handleHttp
+    httpServer = new HttpServer port
 
-    @io = IO.listen httpServer, options
+    @io = IO.listen httpServer.server, options
     @io.sockets.on 'connection', (socket) =>
       new Connection socket, @, @backendHandler
 
