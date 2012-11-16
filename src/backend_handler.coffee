@@ -1,8 +1,7 @@
 http = require 'http'
 
-
 # Manages the connection to the backend system.
-class HttpController
+class BackendHandler
 
   constructor: (@hostname, @port=80) ->
 
@@ -14,7 +13,7 @@ class HttpController
     obj.data ?= {}
     obj.method ?= 'POST'
     obj.headers ?= {}
-    obj.path = HttpController.sanitize_url obj.path
+    obj.path = BackendHandler.sanitize_url obj.path
     jsonString = JSON.stringify(obj.data)
 
     options =
@@ -42,5 +41,5 @@ class HttpController
 
 
 
-module.exports = HttpController
+module.exports = BackendHandler
 

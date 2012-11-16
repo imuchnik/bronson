@@ -2,7 +2,7 @@ Room = require('./room')
 
 class Connection
 
-  constructor: (@socket, @bronson, @httpController) ->
+  constructor: (@socket, @bronson, @backendHandler) ->
     @socket.on 'disconnect', @disconnect
     @socket.on 'join', @joinRoom
     @socket.on 'ping', @ping
@@ -30,9 +30,9 @@ class Connection
     if data.backendRequest?
       # The broadcast event contains a backend request portion --> perform the backend request here.
 
-      return @error "No backend server specified" unless @httpController?
+      return @error "No backend server specified" unless @backendHandler?
 
-      @httpController.request(
+      @backendHandler.request(
         data: data.backendRequest.data
         path: data.backendRequest.path
         method: data.backendRequest.method
@@ -50,7 +50,7 @@ class Connection
   # Called on disconnect.
   disconnect: =>
     @room?.removeConnection(@)
-    @room.broadcast 'room left', @userId
+    @room?.broadcast 'room left', @userId
     console.log "#{@userId} has disconnected"
 
 

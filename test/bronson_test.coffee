@@ -19,15 +19,15 @@ describe 'Bronson', ->
         bronson = new Bronson null, null, sendToSelf: false
         bronson.options.sendToSelf.should.be.false
 
-    describe 'httpController instance', ->
+    describe 'backendHandler instance', ->
 
-      it 'creates an HttpController instance if a host is given', ->
+      it 'creates an BackendHandler instance if a host is given', ->
         bronson = new Bronson 'host', 80
-        bronson.httpController.should.exist
+        bronson.backendHandler.should.exist
 
-      it 'does not create a HttpController instance if no host is given', ->
+      it 'does not create a BackendHandler instance if no host is given', ->
         bronson = new Bronson
-        bronson.should.not.have.property 'httpController'
+        bronson.should.not.have.property 'backendHandler'
 
 
   describe 'listen', ->

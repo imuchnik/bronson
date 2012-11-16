@@ -4,13 +4,13 @@ Connection = require('../src/connection')
 
 describe 'Connection', ->
 
-  connection = mockSocket = mockHttpController = null
+  connection = mockSocket = mockBackendHandler = null
   beforeEach ->
     mockSocket = on: ->
     mockBronson = testing: yes, options: { sendToSelf: true }, emit: ->
-    mockHttpController = {}
-    mockHttpController.request = sinon.stub()
-    connection = new Connection mockSocket, mockBronson, mockHttpController
+    mockBackendHandler = {}
+    mockBackendHandler.request = sinon.stub()
+    connection = new Connection mockSocket, mockBronson, mockBackendHandler
     connection.error = sinon.spy()
     connection.emit = sinon.spy()
 
@@ -20,8 +20,8 @@ describe 'Connection', ->
     it 'stores the given socket', ->
       connection.socket.should.equal mockSocket
 
-    it 'stores the given HttpController instance', ->
-      connection.httpController.should.equal mockHttpController
+    it 'stores the given BackendHandler instance', ->
+      connection.backendHandler.should.equal mockBackendHandler
 
 
   describe 'broadcast', ->
@@ -72,7 +72,7 @@ describe 'Connection', ->
           event: 'foo'
           broadcast: 'bc data'
           backendRequest: data: 'be data'
-        mockHttpController.request = (backendRequest) ->
+        mockBackendHandler.request = (backendRequest) ->
           onHttpRequest.apply {}, arguments
           backendRequest.success 'be response'
 
@@ -105,7 +105,7 @@ describe 'Connection', ->
     describe 'no backend request', ->
       it 'does not call the backend', ->
         connection.broadcast event: 'foo'
-        connection.httpController.request.should.not.have.been.called
+        connection.backendHandler.request.should.not.have.been.called
 
 
       it 'performs a broadcast', ->

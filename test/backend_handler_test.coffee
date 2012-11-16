@@ -1,26 +1,26 @@
 sinon = require('./test_helper').sinon
 portFinder = require 'portfinder'
-HttpController = require('../src/httpcontroller')
+BackendHandler = require('../src/backend_handler')
 http = require 'http'
 
 
-describe 'HttpController', ->
+describe 'BackendHandler', ->
 
   describe 'constructor', ->
 
     it 'stores the hostname and port parameters', ->
-      httpController = new HttpController 'host', 3000
-      httpController.hostname.should.equal 'host'
-      httpController.port.should.equal 3000
+      backendHandler = new BackendHandler 'host', 3000
+      backendHandler.hostname.should.equal 'host'
+      backendHandler.port.should.equal 3000
 
     it 'uses port 80 by default', ->
-      httpController = new HttpController 'host'
-      httpController.port.should.equal 80
+      backendHandler = new BackendHandler 'host'
+      backendHandler.port.should.equal 80
 
 
   describe 'request', ->
 
-    httpController = null
+    backendHandler = null
     requestOptions = null
     requestFunction = ->
 
@@ -38,7 +38,7 @@ describe 'HttpController', ->
           success: -> throw "Success callback should not have been called"
           error: -> throw "Error callback should not have been called"
 
-        httpController = new HttpController 'localhost', port
+        backendHandler = new BackendHandler 'localhost', port
         done()
 
 
@@ -47,7 +47,7 @@ describe 'HttpController', ->
       requestOptions.success = ->
         requestFunction.should.have.been.calledOnce
         done()
-      httpController.request requestOptions
+      backendHandler.request requestOptions
 
 
     it 'passes the returned status code from the server', (done) ->
@@ -55,7 +55,7 @@ describe 'HttpController', ->
       requestOptions.success = (res) ->
         res.status.should.eql 404
         done()
-      httpController.request requestOptions
+      backendHandler.request requestOptions
 
 
     it 'passes the proper path to the server', (done) ->
@@ -63,14 +63,14 @@ describe 'HttpController', ->
       requestFunction = (req, res) -> req.url.should.equal path
       requestOptions.path = path
       requestOptions.success = -> done()
-      httpController.request requestOptions
+      backendHandler.request requestOptions
 
 
     it 'passes the proper request method to the server', (done) ->
       requestFunction = (req, res) -> req.method.should.equal "DELETE"
       requestOptions.method = "DELETE"
       requestOptions.success = -> done()
-      httpController.request requestOptions
+      backendHandler.request requestOptions
 
 
     it 'sends payload data to the server', (done) ->
@@ -82,7 +82,7 @@ describe 'HttpController', ->
           done()
       requestOptions.data = { hello: "world" }
       requestOptions.success = ->
-      httpController.request requestOptions
+      backendHandler.request requestOptions
 
 
     it 'passes the response body as a paramter to the success callback', (done) ->
@@ -91,14 +91,14 @@ describe 'HttpController', ->
       requestOptions.success = (res) ->
         res.body.should.eql responseBody
         done()
-      httpController.request requestOptions
+      backendHandler.request requestOptions
 
 
   describe 'sanitize_url', ->
 
     it 'filters out special characters', ->
-      HttpController.sanitize_url('!@#$%^&*()|?_-/\\').should.equal '_-/'
+      BackendHandler.sanitize_url('!@#$%^&*()|?_-/\\').should.equal '_-/'
 
     it 'passes valid URLs', ->
-      HttpController.sanitize_url('www.bronson.com/bronson-is/the_best').should.equal 'www.bronson.com/bronson-is/the_best'
+      BackendHandler.sanitize_url('www.bronson.com/bronson-is/the_best').should.equal 'www.bronson.com/bronson-is/the_best'
 

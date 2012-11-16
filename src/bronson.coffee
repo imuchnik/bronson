@@ -3,7 +3,7 @@ HTTP = require 'http'
 FS = require 'fs'
 Connection = require './connection'
 Room = require './room'
-HttpController = require './httpcontroller'
+BackendHandler = require './backend_handler'
 EventEmitter = require('events').EventEmitter
 
 
@@ -15,19 +15,8 @@ class Bronson extends EventEmitter
     # Set default values for options.
     @options.sendToSelf ?= yes
 
-    # Create HttpController instance if we have backend integration.
-    @httpController = new HttpController(host, port) if host
-
-
-  # Handles http request for client library
-  handleHttp: (req, res) =>
-    if req.url is '/bronson/bronson.js'
-      FS.readFile "#{__dirname}/../client/bronson.min.js", (err, fsData) ->
-        script = fsData.toString()
-        res.writeHead 200,
-          'Content-Type': 'text/javascript'
-          'Content-Length': Buffer.byteLength script, 'utf8'
-        res.end script
+    # Create BackendHandler instance if we have backend integration.
+    @backendHandler = new BackendHandler(host, port) if host
 
 
   # Starts the Bronson server.
@@ -42,7 +31,7 @@ class Bronson extends EventEmitter
 
     @io = IO.listen httpServer, options
     @io.sockets.on 'connection', (socket) =>
-      new Connection socket, @, @httpController
+      new Connection socket, @, @backendHandler
 
 
 module.exports = Bronson
