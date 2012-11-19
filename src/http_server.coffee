@@ -18,11 +18,11 @@ class HttpServer
     request = new HttpServer.HttpRequest req, res
     return unless request.isBronsonNamespace()
 
-    if request.path[0] is 'bronson.js'
+    if request.path[1] is 'bronson.js'
       @routeHandlers.clientLibrary request
 
-    else if request.path[0] is 'room'
-      roomId = request.path[1]
+    else if request.path[1] is 'room'
+      roomId = request.path[2]
       @routeHandlers.room request, roomId
 
     else
