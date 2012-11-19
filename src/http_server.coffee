@@ -15,7 +15,7 @@ class HttpServer
 
 
   handleRequest: (req, res) =>
-    request = new HttpRequest req, res
+    request = new HttpServer.HttpRequest req, res
     return unless request.isBronsonNamespace()
 
     if request.path[0] is 'bronson.js'
@@ -46,15 +46,13 @@ class HttpServer
 
 
 
-class HttpRequest
+class HttpServer.HttpRequest
   constructor: (@req, @res) ->
     @req = URL.parse @req.url, true
-    @full_path = @req.pathname
     @path = []
 
-    path = @full_path.split /\//g
-    for i in [2..path.length]
-      @path.push path[i]
+    path = @req.pathname.split /\//g
+    @path.push path[i] for i in [1..path.length-1] by 1
 
 
   # Sends data to the browser
@@ -74,7 +72,7 @@ class HttpRequest
 
   # Returns true if the request path begins with "/bronson/"
   isBronsonNamespace: ->
-    @full_path.indexOf '/bronson/' is 0
+    @path[0] is 'bronson'
 
 
 module.exports = HttpServer
