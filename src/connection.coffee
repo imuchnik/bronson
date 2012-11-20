@@ -50,7 +50,9 @@ class Connection
   # Called on disconnect.
   disconnect: =>
     @room?.removeConnection(@)
-    @room?.broadcast 'room left', @userId
+    @room?.broadcast 'room left',
+      userId: @userId
+      usersInRoom: @room.getUserIds()
     console.log "#{@userId} has disconnected"
 
 
@@ -73,7 +75,9 @@ class Connection
     @userId = data.userId
     @room = Room.get data.roomId
     @room.addConnection(@)
-    @room.broadcast 'room joined', @userId
+    @room.broadcast 'room joined',
+      userId: @userId
+      usersInRoom: @room.getUserIds()
 
     console.log "#{data.userId} has joined room #{data.roomId}"
 
