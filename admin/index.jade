@@ -1,0 +1,78 @@
+doctype 5
+html(lang="en")
+  head
+    title Bronson Admin
+    link(href='/bronson/admin/css', rel='stylesheet', media='screen')
+    script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js')
+    script(type='text/javascript', src='/bronson/admin/js')
+  body
+
+    .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+        .container
+          a.brand(href="#") Bronson
+          .nav-collapse.collapse
+             ul.nav
+              li.active <a href="#rooms">Rooms</a>
+              li <a href="#benchmark">Benchmark</a>
+    #rooms.container.page.active
+      h1 Rooms
+      .tabbable.tabs-left
+        ul.nav.nav-tabs
+          - roomId = 0
+          - for room,roomName in rooms
+            li
+              a(href="#r#{++roomId}", data-toggle="tab")= roomName
+        .tab-content
+          #r0.tab-pane.active <h3>Select a room from the left</h3>
+          - roomId = 0
+          - for room,roomName in rooms
+            - connections = room.connections
+            .tab-pane(id="r#{++roomId}")
+              h3= roomName
+              table.table.table-striped.table-hover.table-bordered
+                thead
+                  th Client Id
+                  th IP
+                  th Country
+                  th Last Event
+                  th Ping <a class="btn btn-mini">Ping All</a>
+                - each connection in connections
+                  tr
+                    td= connection.userId
+                    td= connection.ip
+                    td= ( geoip.lookup(connection.ip) || {country:"Unknown"} ).country
+                    td "asdf"
+                    td <span class="latency"></span><a class="btn btn-small ping">Ping</a>
+    #benchmark.container.page
+      h1 Benchmark
+      .well
+        h4 Legend
+        .key
+          div(style="background:#ffffff")
+          span Loading frame
+        .key
+          div(style="background:#2222ff")
+          span Connecting to Bronson
+        .key
+          div(style="background:#00ffff")
+          span Joining room "benchmark"
+        .key
+          div(style="background:#00ff00")
+          span Connected, low latency
+        .key
+          div(style="background:#ffff00")
+          span Connected, normal latency
+        .key
+          div(style="background:#dea300")
+          span Connected, high latency
+        .key
+          div(style="background:#ff0000")
+          span Lost connection with Bronson
+      a.start-benchmark.btn.btn-primary.btn-large(href="#") Start Benchmark
+      | with
+      form
+        input.num-workers(type="text", value="33")
+      | workers
+      .benchmark-status-message Ready to benchmark...
+      .benchmark-frames

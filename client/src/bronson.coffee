@@ -42,3 +42,6 @@ class window.Bronson
   # Bind callback to specific event
   on: (event, callback) ->
     @socket.on event, callback
+
+  ping: ->
+    @socket.emit 'ping'

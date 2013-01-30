@@ -3,7 +3,7 @@ FS = require 'fs'
 Connection = require './connection'
 Room = require './room'
 BackendHandler = require './backend_handler'
-HttpServer = require './http_server'
+HttpServer = require './http_server/http_server'
 EventEmitter = require('events').EventEmitter
 
 

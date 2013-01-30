@@ -1,0 +1,38 @@
+doctype 5
+html(lang="en")
+  head
+    style
+      body { background: #2222ff; font-size: 9px; font-family: sans-serif; margin: 0; text-align: center; font-weight: bold; line-height: 15px }
+    script(type='text/javascript', src='/bronson/bronson.js')
+    script(type='text/javascript')
+      var bronson, userId, ping, pingTime;
+      bronson = new Bronson();
+      userId = window.location.search.substr(1);
+      bronson.on('connect',function(){
+        document.body.style.background = '#00ffff';
+        bronson.joinRoom('benchmark', userId);
+      });
+      bronson.on('room joined', function(data){
+        if(userId != data.userId) return;
+        document.body.style.background = '#00ff00';
+        ping();
+      });
+      bronson.on('disconnect', function(){
+        document.body.style.background = '#ff0000';
+      });
+      ping = function(){
+        pingTime = Date.now();
+        bronson.ping();
+      };
+      bronson.on('pong', function(){
+        latency = Date.now() - pingTime;
+        document.body.innerHTML = latency;
+        if(latency < 100)
+          document.body.style.background = '#00ff00';
+        else if(latency < 250)
+          document.body.style.background = '#ffff00';
+        else
+          document.body.style.background = '#dea300';
+        setTimeout(ping,500 + Math.random()*1000);
+      });
+  body

@@ -7,6 +7,7 @@ class Connection
     @socket.on 'join', @joinRoom
     @socket.on 'ping', @ping
     @socket.on 'send', @broadcast
+    @ip = @socket.handshake.address.address
 
 
   # Allows a client to broadcast a message to all other clients in the room.
@@ -87,7 +88,6 @@ class Connection
 
   # For diagnosing connection issues.
   ping: =>
-    console.log 'ping'
     @emit 'pong'
 
 

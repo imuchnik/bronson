@@ -6,7 +6,9 @@ describe 'Connection', ->
 
   connection = mockSocket = mockBackendHandler = null
   beforeEach ->
-    mockSocket = on: ->
+    mockSocket =
+      on: ->
+      handshake: address: address: ''
     mockBronson = testing: yes, options: { sendToSelf: true }, emit: ->
     mockBackendHandler = {}
     mockBackendHandler.request = sinon.stub()

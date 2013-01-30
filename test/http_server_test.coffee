@@ -2,8 +2,8 @@ sinon = require('./test_helper').sinon
 portFinder = require 'portfinder'
 http = require 'http'
 fs = require 'fs'
-HttpServer = require '../src/http_server'
-HttpRequest = HttpServer.HttpRequest
+HttpServer = require '../src/http_server/http_server'
+HttpRequest = require '../src/http_server/http_request'
 Room = require '../src/room.coffee'
 
 describe 'HttpServer', ->
@@ -28,45 +28,6 @@ describe 'HttpServer', ->
       request.end()
 
 
-  describe 'routeHandlers', ->
-
-    mockHttpRequest = null
-    beforeEach ->
-      mockHttpRequest = {}
-
-    describe 'clientLibrary', ->
-      it 'returns the client-side library as /bronson/bronson.js', (done) ->
-        fsData = fs.readFileSync('client/bronson.min.js').toString()
-        httpServer.routeHandlers.clientLibrary mockHttpRequest
-        mockHttpRequest.end = (data) ->
-          data.should.eql fsData
-          done()
-
-
-    describe 'room', ->
-      it 'returns an empty object if the room does not exist', (done) ->
-        mockHttpRequest.end = (data) ->
-          data.should.eql "{}"
-          done()
-        httpServer.routeHandlers.room mockHttpRequest, "empty room"
-
-      it 'returns json string with an array of connected clients to the room', ->
-        Room.rooms["test room"] = mockRoom = new Room
-        mockRoom.connections = [
-          { userId: 1 }
-          { userId: 2 }
-          { userId: 3 }
-        ]
-        mockHttpRequest.end = (data) ->
-          connections = JSON.parse(data).connections
-          connections.should.have.length 3
-          connections.should.include 1
-          connections.should.include 2
-          connections.should.include 3
-        httpServer.routeHandlers.room mockHttpRequest, "test room"
-
-
-
 describe 'HttpRequest', ->
 
   httpRequest = null
@@ -86,8 +47,8 @@ describe 'HttpRequest', ->
     it 'parses the path into a path array', ->
       httpRequest.path.should.eql ['p', 'a', 't', 'h']
 
-    it 'saves the parsed query into res.query object', ->
-      httpRequest.req.query.should.eql query: 'string'
+    it 'saves the parsed query into req.url.query object', ->
+      httpRequest.req.url.query.should.eql query: 'string'
 
 
   describe 'end', ->
@@ -115,7 +76,7 @@ describe 'HttpRequest', ->
     beforeEach ->
       testData = '{ test: "data" }'
       testContentType = 'application/json'
-      httpRequest.req.query.callback = 'mycallback'
+      httpRequest.req.url.query.callback = 'mycallback'
       httpRequest.end testData, testContentType
 
     it 'wraps the passed data in a callback', ->
