@@ -1,0 +1,87 @@
+Color =
+  green: '\x1b[0;32m'
+  red: '\x1b[0;31m'
+log = (message, color="") -> console.log "\x1b[0;1m#{color}#{message}\x1b[0m"
+
+Require =
+  bronsonPackage: require './package.json'
+  coffee: require 'coffee-script'
+  fs: require 'fs'
+  uglifyjs: require 'uglify-js'
+  uglifycss: require 'uglifycss'
+
+
+BuildHelpers =
+  concatenate: (dir, type) ->
+    concatenatedData = ''
+    for fileName in Require.fs.readdirSync dir
+      continue unless fileName.match new RegExp("\\.#{type}$")
+      concatenatedData += Require.fs.readFileSync "#{dir}/#{fileName}"
+    concatenatedData
+
+  coffeeCompileDir: (srcDir, outDir) ->
+    for fileName in Require.fs.readdirSync srcDir
+      path = "#{srcDir}/#{fileName}"
+      stat = Require.fs.statSync path
+      if stat.isFile()
+        continue unless fileName.match /\.coffee$/
+        compiledFileName = fileName.replace /\.coffee$/, '.js'
+        data = Require.fs.readFileSync path
+        console.log "Compiling `#{path}' > `#{outDir}/#{compiledFileName}'"
+        data = Require.coffee.compile data.toString()
+        Require.fs.writeFileSync "#{outDir}/#{compiledFileName}", data
+      else
+        subDir = "#{outDir}/#{fileName}"
+        try
+          Require.fs.mkdirSync subDir
+        BuildHelpers.coffeeCompileDir path, subDir
+
+
+Build =
+  all: ->
+    try
+      Build.server()
+      Build.client()
+      Build.admin()
+    catch error
+      log "Error: #{error}", Color.red
+
+  server: ->
+    log 'Building Bronson server'
+    BuildHelpers.coffeeCompileDir 'src', 'lib'
+    log 'Success!\n', Color.green
+
+  client: ->
+    log 'Building Bronson client library'
+    BuildHelpers.coffeeCompileDir 'client/src', 'client/lib'
+    comment = "// Bronson v#{Require.bronsonPackage.version} | github.com/Originate-Inc/bronson\n"
+    lib = comment
+    lib += BuildHelpers.concatenate 'client/lib', 'js'
+    lib += Require.fs.readFileSync 'client/socket.io/socket.io.js'
+    Require.fs.writeFileSync 'client/bronson.js', lib
+    minifiedLib = comment
+    minifiedLib += Require.uglifyjs.minify('client/bronson.js').code
+    Require.fs.writeFileSync 'client/bronson.min.js', minifiedLib
+    log 'Success!\n', Color.green
+
+  admin: ->
+    log 'Building Bronson admin assets'
+    coffee = BuildHelpers.concatenate 'admin/src/javascripts', 'coffee'
+    css = BuildHelpers.concatenate 'admin/src/stylesheets', 'css'
+
+    js = Require.coffee.compile coffee
+    js += BuildHelpers.concatenate 'admin/src/javascripts', 'js'
+    Require.fs.writeFileSync "admin/index.js", js
+
+    minifiedJs = Require.uglifyjs.minify('admin/index.js').code
+    minifiedCss = Require.uglifycss.processString css
+    Require.fs.writeFileSync 'admin/index.css', minifiedCss
+    Require.fs.writeFileSync 'admin/index.js', minifiedJs
+    log 'Success!\n', Color.green
+
+
+task 'build', 'Runs all build tasks', Build.all
+task 'build:all', 'Runs all build tasks', Build.all
+task 'build:server', 'Build Bronson server', Build.server
+task 'build:client', 'Build Bronson client library', Build.client
+task 'build:admin', 'Build Bronson admin assets', Build.admin
