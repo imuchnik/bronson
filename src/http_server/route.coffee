@@ -43,7 +43,7 @@ class Route
     if @etag? and request.headers['if-none-match'] is @etag
       request.notModified()
 
-    FS.readFile "#{__dirname}/../#{@file}", (err, data) =>
+    FS.readFile "#{__dirname}/../../#{@file}", (err, data) =>
       return request.err 500 if err?
       @etag = md5 data.toString() unless @etag?
       if @compiler?
