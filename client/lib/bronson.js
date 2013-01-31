@@ -62,7 +62,7 @@
     };
 
     Bronson.prototype.ping = function() {
-      return this.socket.emit('ping');
+      return this.socket.emit('ping', +(new Date));
     };
 
     return Bronson;

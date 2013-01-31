@@ -44,4 +44,4 @@ class window.Bronson
     @socket.on event, callback
 
   ping: ->
-    @socket.emit 'ping'
+    @socket.emit 'ping', +(new Date)

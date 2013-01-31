@@ -5,7 +5,7 @@ html(lang="en")
       body { background: #2222ff; font-size: 9px; font-family: sans-serif; margin: 0; text-align: center; font-weight: bold; line-height: 15px }
     script(type='text/javascript', src='/bronson/bronson.js')
     script(type='text/javascript')
-      var bronson, userId, ping, pingTime;
+      var bronson, userId, ping;
       bronson = new Bronson();
       userId = window.location.search.substr(1);
       bronson.on('connect',function(){
@@ -21,11 +21,11 @@ html(lang="en")
         document.body.style.background = '#ff0000';
       });
       ping = function(){
-        pingTime = Date.now();
         bronson.ping();
+        setTimeout(ping, 1000 + Math.random()*1000);
       };
-      bronson.on('pong', function(){
-        latency = Date.now() - pingTime;
+      bronson.on('pong', function(time){
+        latency = new Date() - time;
         document.body.innerHTML = latency;
         if(latency < 100)
           document.body.style.background = '#00ff00';
@@ -33,6 +33,5 @@ html(lang="en")
           document.body.style.background = '#ffff00';
         else
           document.body.style.background = '#dea300';
-        setTimeout(ping,500 + Math.random()*1000);
       });
   body

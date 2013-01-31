@@ -87,8 +87,8 @@ class Connection
 
 
   # For diagnosing connection issues.
-  ping: =>
-    @emit 'pong'
+  ping: (data) =>
+    @emit 'pong', data
 
 
 module.exports = Connection

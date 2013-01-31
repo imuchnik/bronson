@@ -1,4 +1,4 @@
-// Bronson v0.3.0 | github.com/Originate-Inc/bronson
+// Bronson v0.3.1 | github.com/Originate-Inc/bronson
 (function() {
 
   window.Bronson = (function() {
@@ -63,7 +63,7 @@
     };
 
     Bronson.prototype.ping = function() {
-      return this.socket.emit('ping');
+      return this.socket.emit('ping', +(new Date));
     };
 
     return Bronson;
