@@ -15,6 +15,13 @@ class Bronson extends EventEmitter
     # Set default values for options.
     @options.sendToSelf ?= yes
 
+    # Set default log function
+    @options.logFn ?= (obj) ->
+      logMsg = "\x1b[0m[#{obj.date}]\x1b[0;32m #{obj.event}"
+      logMsg += "\x1b[0m  -  (#{JSON.stringify(obj.client)})" if obj.client?
+      console.log logMsg
+    @log = (data) => @options.logFn data
+
     # Create BackendHandler instance if we have backend integration.
     @backendHandler = new BackendHandler(host, port) if host
 

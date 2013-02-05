@@ -9,6 +9,8 @@ class Connection
     @socket.on 'send', @broadcast
     @ip = @socket.handshake.address.address
 
+    @log 'Client connected'
+
 
   # Allows a client to broadcast a message to all other clients in the room.
   broadcast: (data) =>
@@ -26,7 +28,7 @@ class Connection
     response.broadcast = data.broadcast if data.broadcast?
 
     # Log the event.
-    console.log "User '#{@userId}' broadcasts '#{data.event}' into room '#{@room.id}'." unless @bronson.testing
+    @log "Client broadcasted '#{data.event}' into room '#{@room.id}'"
 
     if data.backendRequest?
       # The broadcast event contains a backend request portion --> perform the backend request here.
@@ -41,8 +43,14 @@ class Connection
         error: (error) -> console.error error
         success: (backendResponse) =>
           response.backendResponse = backendResponse
+          # response.backendResponse = body: "{ \"delay\": #{0} }"
           @room.broadcast data.event, response, data.toSelf, @
       )
+      # delay = 2000
+      # setTimeout =>
+      #   response.backendResponse = body: "{ \"delay\": #{0} }"
+      #   @room.broadcast data.event, response, data.toSelf, @
+      # , delay
     else
       # No backend request --> just broadcast immediately.
       @room.broadcast data.event, response, data.toSelf, @
@@ -54,7 +62,7 @@ class Connection
     @room?.broadcast 'room left',
       userId: @userId
       usersInRoom: @room.getUserIds()
-    console.log "#{@userId} has disconnected"
+    @log "Client disconnected"
 
 
   # Sends the given message to this connection.
@@ -64,7 +72,7 @@ class Connection
 
   # Sends the given error message to the connection.
   error: (errorMessage) ->
-    console.log "ERROR: #{errorMessage}"
+    @log "ERROR: #{errorMessage}"
     @socket.emit 'error', errorMessage
 
 
@@ -80,10 +88,21 @@ class Connection
       userId: @userId
       usersInRoom: @room.getUserIds()
 
-    console.log "#{data.userId} has joined room #{data.roomId}"
+    @log "Client join room #{data.roomId}"
 
     # Notify listeners.
     @bronson.emit 'room joined', data
+
+
+  log: (event) ->
+    @bronson.log
+      event: event
+      date: new Date()
+      client:
+        ip: @ip
+        userId: @userId
+        socketId: @socket.id
+
 
 
   # For diagnosing connection issues.
