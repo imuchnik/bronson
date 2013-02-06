@@ -1,4 +1,4 @@
-// Bronson v0.4.0 | github.com/Originate-Inc/bronson
+// Bronson v0.4.1 | github.com/Originate-Inc/bronson
 (function() {
 
   window.Bronson = (function() {
