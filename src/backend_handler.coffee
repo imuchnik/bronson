@@ -3,7 +3,8 @@ http = require 'http'
 # Manages the connection to the backend system.
 class BackendHandler
 
-  constructor: (@hostname, @port=80) ->
+  constructor: (@hostname, @port=80, @bronson) ->
+    @bronson ?= log: (->)
 
   # Removes all characters that should not be part of a url.
   @sanitize_url: (url) ->
@@ -26,10 +27,21 @@ class BackendHandler
     options.headers['Content-Length'] = Buffer.byteLength(jsonString,'utf8')
 
 
-    request = http.request(options, (response) ->
+    startRequestTime = new Date
+    request = http.request(options, (response) =>
       responseBody = ""
       response.on('data', (chunk) -> responseBody += chunk )
-      response.on('end', ->
+      response.on('end', =>
+
+        # Log the response
+        @bronson.log
+          event: 'Backend request'
+          status: response.statusCode
+          requestParams: options
+          startRequestTime: startRequestTime
+          endRequestTime: new Date
+
+        # Call the success callback
         obj.success
           status: response.statusCode
           body: responseBody

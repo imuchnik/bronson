@@ -9,7 +9,7 @@ class Connection
     @socket.on 'send', @broadcast
     @ip = @socket.handshake.address.address
 
-    @log 'Client connected'
+    @log 'Client connected', transport: @socket.transport
 
 
   # Allows a client to broadcast a message to all other clients in the room.
@@ -72,7 +72,7 @@ class Connection
 
   # Sends the given error message to the connection.
   error: (errorMessage) ->
-    @log "ERROR: #{errorMessage}"
+    @log "Client error", error: errorMessage
     @socket.emit 'error', errorMessage
 
 
@@ -88,20 +88,22 @@ class Connection
       userId: @userId
       usersInRoom: @room.getUserIds()
 
-    @log "Client join room #{data.roomId}"
+    @log "Client joined room", roomId: data.roomId
 
     # Notify listeners.
     @bronson.emit 'room joined', data
 
 
-  log: (event) ->
-    @bronson.log
+  log: (event, data={}) ->
+    logObj =
       event: event
       date: new Date()
       client:
         ip: @ip
         userId: @userId
         socketId: @socket.id
+    logObj[option] = data[option] for option of data
+    @bronson.log logObj
 
 
 
