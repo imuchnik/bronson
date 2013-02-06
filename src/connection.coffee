@@ -43,14 +43,8 @@ class Connection
         error: (error) -> console.error error
         success: (backendResponse) =>
           response.backendResponse = backendResponse
-          # response.backendResponse = body: "{ \"delay\": #{0} }"
           @room.broadcast data.event, response, data.toSelf, @
       )
-      # delay = 2000
-      # setTimeout =>
-      #   response.backendResponse = body: "{ \"delay\": #{0} }"
-      #   @room.broadcast data.event, response, data.toSelf, @
-      # , delay
     else
       # No backend request --> just broadcast immediately.
       @room.broadcast data.event, response, data.toSelf, @
