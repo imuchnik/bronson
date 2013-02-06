@@ -1,13 +1,19 @@
-// Bronson v0.4.1 | github.com/Originate-Inc/bronson
+// Bronson v0.4.2 | github.com/Originate-Inc/bronson
 (function() {
 
   window.Bronson = (function() {
 
     function Bronson(host) {
+      var _this = this;
       if (host == null) {
         host = window.location.origin;
       }
       this.socket = io.connect(host);
+      this.socket.on('connect', function() {
+        if (_this.room != null) {
+          return _this.joinRoom(_this.room, _this.username);
+        }
+      });
     }
 
     Bronson.prototype.broadcast = function(event, payload, sendToSelf) {
@@ -49,12 +55,11 @@
     };
 
     Bronson.prototype.joinRoom = function(room, username) {
-      if (username == null) {
-        username = "";
-      }
+      this.room = room;
+      this.username = username != null ? username : "";
       return this.socket.emit('join', {
-        roomId: room,
-        userId: username
+        roomId: this.room,
+        userId: this.username
       });
     };
 

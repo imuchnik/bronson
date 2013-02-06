@@ -2,6 +2,8 @@ class window.Bronson
 
   constructor: (host=window.location.origin) ->
     @socket = io.connect host
+    @socket.on 'connect', =>
+      @joinRoom @room, @username if @room?
 
 
   # Emits payload to all clients in the room
@@ -33,10 +35,10 @@ class window.Bronson
 
 
   # Join a specific room
-  joinRoom: (room, username="") ->
+  joinRoom: (@room, @username="") ->
     @socket.emit 'join',
-      roomId: room
-      userId: username
+      roomId: @room
+      userId: @username
 
 
   # Bind callback to specific event
