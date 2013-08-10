@@ -74,5 +74,11 @@ html(lang="en")
       form
         input.num-workers(type="text", value="33")
       | workers
+
+      form.run-type(name="run-type")
+        input(type="radio", name="run-type", value="ping", id="run-type-ping", checked)
+        label(for="run-type-ping") Ping
+        input(type="radio", name="run-type", value="emit", id="run-type-emit")
+        label(for="run-type-emit") Emit
       .benchmark-status-message Ready to benchmark...
       .benchmark-frames
