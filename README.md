@@ -1,11 +1,11 @@
 # BRowser ONline SynchrONization <a href="https://secure.travis-ci.org/#!/Originate-Inc/bronson" target="_blank"><img src="https://secure.travis-ci.org/Originate-Inc/bronson.png" alt="Build status"></a>
 
-Bronson is a real-time, cross-platform instant messaging framework for web, hybrid, and native mobile and desktop applications, built on top of [Node.js](http://nodejs.org) and [Socket.IO](http://socket.io). 
+Bronson is a real-time, cross-platform instant messaging framework for web, hybrid, and native mobile and desktop applications, built on top of [Node.js](http://nodejs.org) and [Socket.IO](http://socket.io).
 
 
 ## Functionality
 
-Bronson shines in three dedicated areas: 
+Bronson shines in three dedicated areas:
 
 1. A wide array of [supported platforms](#supported-platforms)
 2. Isolated communication channels ([rooms](#rooms))
@@ -22,12 +22,12 @@ More details below.
 
 
 ### Rooms
-Clients can enter dedicated _chat rooms_ to talk to other clients in that room. 
-The visibility of broadcast messages is restricted to the room that the emitting client is in. Several rooms can be active at a time, allowing for parallel, isolated communication patterns. 
+Clients can enter dedicated _chat rooms_ to talk to other clients in that room.
+The visibility of broadcast messages is restricted to the room that the emitting client is in. Several rooms can be active at a time, allowing for parallel, isolated communication patterns.
 
 
 ### Backend integration
-Besides the traditional broadcast of static payload directly to peers, Bronson's broadcast messages can include a dynamic backend portion. 
+Besides the traditional broadcast of static payload directly to peers, Bronson's broadcast messages can include a dynamic backend portion.
 In this scenario, the Bronson platform first performs a specified request to the backend API for the emitting client, then includes the backend's response into the message broadcasted to all clients.
 
 <table>
@@ -39,7 +39,7 @@ In this scenario, the Bronson platform first performs a specified request to the
       Clients load from the backend system and set up a persistent connection to the Bronson server.
     </td>
     <td>
-      <img src="http://originate-inc.github.com/bronson/1.png">
+      <img src="http://originate.github.com/bronson/1.png">
     </td>
   </tr>
   <tr>
@@ -50,7 +50,7 @@ In this scenario, the Bronson platform first performs a specified request to the
       A client emits a broadcast message that includes a backend request to the Bronson server.
     </td>
     <td>
-      <img src="http://originate-inc.github.com/bronson/2.png">
+      <img src="http://originate.github.com/bronson/2.png">
     </td>
   </tr>
   <tr>
@@ -61,7 +61,7 @@ In this scenario, the Bronson platform first performs a specified request to the
       The Bronson server forwards the request, including all request headers and cookies, to the backend system.
     </td>
     <td>
-      <img src="http://originate-inc.github.com/bronson/3.png">
+      <img src="http://originate.github.com/bronson/3.png">
     </td>
   </tr>
   <tr>
@@ -72,7 +72,7 @@ In this scenario, the Bronson platform first performs a specified request to the
       The backend system responds to the Bronson server. No traffic to the clients happens at this stage.
     </td>
     <td>
-      <img src="http://originate-inc.github.com/bronson/4.png">
+      <img src="http://originate.github.com/bronson/4.png">
     </td>
   </tr>
   <tr>
@@ -83,12 +83,12 @@ In this scenario, the Bronson platform first performs a specified request to the
       The Bronson server broadcasts the original broadcast message, including the response from the backend, to all clients.
     </td>
     <td>
-      <img src="http://originate-inc.github.com/bronson/5.png">
+      <img src="http://originate.github.com/bronson/5.png">
     </td>
   </tr>
 </table>
 
-This is useful, for example, to notify participants in a room about new data objects that have to be created on the server first. 
+This is useful, for example, to notify participants in a room about new data objects that have to be created on the server first.
 Bronson allows to do both things (creating objects in the backend and notifying all other clients) using only one call from the emitting device, thereby saving bandwidth and battery life on it.
 
 
@@ -121,7 +121,7 @@ $ coffee server.coffee
 More complete usage examples are given in the [/examples](https://github.com/Originate-Inc/bronson/tree/master/examples) directory.
 
 The [chat](https://github.com/Originate-Inc/bronson/tree/master/examples/chat) directory contains a fully functional chat application.
-The server portion, [chat.coffee](https://github.com/Originate-Inc/bronson/blob/master/examples/chat/chat.coffee), 
+The server portion, [chat.coffee](https://github.com/Originate-Inc/bronson/blob/master/examples/chat/chat.coffee),
 creates a web server that serves an HTML file as well as a Bronson server for real-time broadcasting in only 12 lines of CoffeeScript.
 The client portion, [chat.html](https://github.com/Originate-Inc/bronson/blob/master/examples/chat/chat.html),
 connects to the server, logs into a room, announces the user to the other participants, and provides facilities as well as UI for sending and receiving chat messages in only 10 lines of CoffeeScript.
