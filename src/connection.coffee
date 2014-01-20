@@ -5,6 +5,7 @@ class Connection
   constructor: (@socket, @bronson, @backendHandler) ->
     @socket.on 'disconnect', @disconnect
     @socket.on 'join', @joinRoom
+    @socket.on 'leave', @leaveRoom
     @socket.on 'ping', @ping
     @socket.on 'send', @broadcast
     @ip = @socket.handshake.address.address
@@ -52,10 +53,7 @@ class Connection
 
   # Called on disconnect.
   disconnect: =>
-    @room?.removeConnection(@)
-    @room?.broadcast 'room left',
-      userId: @userId
-      usersInRoom: @room.getUserIds()
+    @leaveRoom() if @room
     @log "Client disconnected"
 
 
@@ -72,9 +70,13 @@ class Connection
 
   # Called when a connection requests to join the given room.
   joinRoom: (data) =>
-    return unless data? and data.userId? and data.roomId?
 
-    @room?.removeConnection(@)
+    # Check for errors.
+    return @error("Already in a room") if @room?
+    return @error("Missing data") unless data?
+    return @error("No userId given") unless data.userId?
+    return @error("No roomId given") unless data.roomId?
+
     @userId = data.userId
     @room = Room.get data.roomId
     @room.addConnection(@)
@@ -86,6 +88,20 @@ class Connection
 
     # Notify listeners.
     @bronson.emit 'room joined', data
+
+
+  # Called when a connection requests to leave its current room
+  leaveRoom: ->
+    return @error("Not in a room") unless @room?
+
+    @room.removeConnection(@)
+    @room.broadcast 'room left',
+      userId: @userId
+      usersInRoom: @room.getUserIds()
+
+    @log "Client left room", roomId: @room.id
+
+    @room = null
 
 
   log: (event, data={}) ->
