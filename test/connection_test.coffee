@@ -1,6 +1,7 @@
 sinon = require('./test_helper').sinon
+expect = require('./test_helper').expect
 Connection = require('../src/connection')
-
+Room = require('../src/room')
 
 describe 'Connection', ->
 
@@ -121,4 +122,42 @@ describe 'Connection', ->
         connection.broadcast event: 'foo', broadcast: 'bc data'
         connection.room.broadcast.args[0][0].should.equal('foo')
         connection.room.broadcast.args[0][1].should.eql(broadcast: 'bc data')
+
+  describe 'join', ->
+    it 'adds the user to the supplied room', ->
+      connection.joinRoom {userId: 1, roomId: 2}
+      connection.room.getUserIds().should.eql([1])
+
+    it 'returns an error if already in a room', ->
+      connection.room = {}
+      connection.joinRoom {userId: 1, roomId: 2}
+      connection.error.should.have.been.calledOnce
+      connection.error.should.have.been.calledWith('Already in a room')
+
+    it 'returns an error if missing data', ->
+      connection.joinRoom()
+      connection.error.should.have.been.calledOnce
+      connection.error.should.have.been.calledWith('Missing data')
+
+    it 'returns an error if missing userId', ->
+      connection.joinRoom {roomId: 2}
+      connection.error.should.have.been.calledOnce
+      connection.error.should.have.been.calledWith('No userId given')
+
+    it 'returns an error if missing roomId', ->
+      connection.joinRoom {userId: 1}
+      connection.error.should.have.been.calledOnce
+      connection.error.should.have.been.calledWith('No roomId given')
+
+
+  describe 'leave', ->
+    it 'removes the user from their current room', ->
+      connection.room = Room.get(2)
+      connection.leaveRoom()
+      expect(connection.room).to.be.null
+
+    it 'not in a room', ->
+      connection.leaveRoom()
+      connection.error.should.have.been.calledOnce
+      connection.error.should.have.been.calledWith('Not in a room')
 
